@@ -22,7 +22,7 @@ const Routing = () =>
     </Route>
     
 
-  </Switch>
+    </Switch>
   ); 
  
 }

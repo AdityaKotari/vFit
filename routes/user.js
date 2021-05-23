@@ -1,3 +1,5 @@
+//all places with "pog" need to be replaced with db related code
+
 var express = require('express');
 var router = express.Router();
 
@@ -28,8 +30,8 @@ router.post('/login', (req, res) => {
 //gets user data
 router.get('/userData', requireLogin, (req, res) => {
     const {authorization} = req.headers;
-    //authorization = "Bearer lfsjiejfoljoljffw"
     const id = jwt.decode(authorization.replace("Bearer ",""))
+    
     res.send("User data, Pog")
 })
 
