@@ -14,7 +14,7 @@ router.post('/signup', (req, res) => {
     if (!email || !name || !password ||!phone) {
         res.status(422).json({ error: "Some arguments are missing" });
     }
-    res.send("Poggers, signed up")
+    res.json({"message":"Poggers, signed up"})
 })
 
 //logs in a user, requires {email, password}
@@ -24,7 +24,7 @@ router.post('/login', (req, res) => {
         return res.status(422).json({error:"Email or password is missing"});
     }
 
-    res.send("Logged in, Pog")
+    res.json({"message":"Poggers, Logged in"})
 })
 
 //gets user data
@@ -32,7 +32,7 @@ router.get('/userData', requireLogin, (req, res) => {
     const {authorization} = req.headers;
     const id = jwt.decode(authorization.replace("Bearer ",""))
     
-    res.send("User data, Pog")
+    res.json({"message":"Poggers, take your date"})
 })
 
 module.exports = router;

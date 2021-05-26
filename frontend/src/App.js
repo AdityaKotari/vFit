@@ -8,7 +8,9 @@ import {
  
 } from "react-router-dom";
 import Home from './components/screens/Home'; 
+import Signup from './components/screens/Signup'; 
 
+import './App.css'
 
 
 const Routing = () => 
@@ -20,7 +22,9 @@ const Routing = () =>
     <Route exact path="/">
       <Home />
     </Route>
-    
+    <Route exact path="/signup">
+      <Signup />
+    </Route>
 
     </Switch>
   ); 
