@@ -21,7 +21,7 @@ app.get("/", (req, res) => {
 })
 
 app.use(express.static(path.join(__dirname, 'frontend/build'))); 
-app.use("/posenet_models", express.static(__dirname + "/posenet_models"));
+app.use("/public", express.static(__dirname + "/public"));
 app.get("/friendplay", (req, res) => {
     res.render("friendplay")
 })
