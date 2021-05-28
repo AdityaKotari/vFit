@@ -122,9 +122,8 @@ router.get("/friends", requireLogin, (req, res) => {
                 if (err) throw err;
                 if (result.length) {
                   results.outgoing.push(...result);
-                  console.log(results);
-                  return res.send(results);
                 }
+                return res.send(results);
               }
             );
           }
