@@ -8,5 +8,14 @@
 .segments{
     padding-left: 20% !important;
     padding-right: 20% !important;
-    
+}
+.homeB{
+    margin: 10% !important;
+}
+.homebuttons{
+    width: 300px !important;
+    height: 200px !important;
+}
+.solovideo{
+    margin: 5% !important;
 }

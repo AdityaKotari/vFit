@@ -9,6 +9,8 @@ import {
 } from "react-router-dom";
 import Home from './components/screens/Home'; 
 import Signup from './components/screens/Signup'; 
+import Solo from './components/screens/Solo'; 
+
 
 import './App.css'
 
@@ -24,6 +26,9 @@ const Routing = () =>
     </Route>
     <Route exact path="/signup">
       <Signup />
+    </Route>
+    <Route exact path="/solo">
+      <Solo />
     </Route>
 
     </Switch>
