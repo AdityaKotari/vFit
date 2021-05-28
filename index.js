@@ -31,6 +31,10 @@ app.get("/soloplay", (req, res) => {
     res.render("soloplay")
 })
 
+app.get("/signup", (req, res) => {
+    res.render("signup")
+})
+
 app.listen(port, () => {
     console.log(`vFit server listening at http://localhost:${port}`)
 })
