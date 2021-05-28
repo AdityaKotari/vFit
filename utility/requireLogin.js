@@ -27,11 +27,15 @@ const requireLogin = (req, res, next) => {
         }
 
         const {_id} = payload;
-        //add user check in db here
-
-        next()
-        
-        
+        con.query(`SELECT user_id
+                FROM user
+                WHERE user_id = ${_id}`,
+            function (err, result) {
+                console.log(result);
+                if(result.length)
+                    next()
+            }
+        );
     });
 };
 
