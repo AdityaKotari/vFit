@@ -11,6 +11,8 @@ import Home from './components/screens/Home';
 import Signup from './components/screens/Signup'; 
 import Solo from './components/screens/Solo'; 
 import ScriptTag from 'react-script-tag';
+import Friendplay from './components/screens/Friendplay'; 
+
 
 import './App.css'
 
@@ -29,6 +31,9 @@ const Routing = () =>
     </Route>
     <Route exact path="/solo">
       <Solo />
+    </Route>
+    <Route exact path="/friendplay">
+      <Friendplay />
     </Route>
 
     </Switch>
