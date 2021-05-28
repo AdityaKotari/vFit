@@ -1,9 +1,12 @@
 .signup{
-    background-color: #008080;
-    padding: 10%;
     height: 100vh;
     width: 100vw;
 }
 .headers{
     text-align: center;
+}
+.segments{
+    padding-left: 20% !important;
+    padding-right: 20% !important;
+    
 }

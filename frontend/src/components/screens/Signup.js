@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react"
 import { Link, NavLink, useHistory } from "react-router-dom"
 import { Button, Divider, Form, Grid, Segment, Header } from 'semantic-ui-react'
 
+import Topnav from '../Topnav.js'; 
+
 const Signup = () => {
     const history = useHistory()
     const [name, setName] = useState("")
@@ -69,10 +71,11 @@ const Signup = () => {
 
     return (
         <div className="signup">
-            <Header className="headers" size='huge' >vFit: (image logo here instead)</Header>
+            <Topnav/>
+            <Header className="headers" size='huge' >vFit: (image logo here instead maybe)</Header>
             
             <Header className="headers" size='large' >A pogject that aims to eradicate fat people</Header>
-            <Segment padded="very">
+            <Segment basic className="segments">
                 <Grid columns={2} relaxed="very" stackable>
                     <Grid.Column>
                         <Header className="headers" size='huge'>Log in</Header>
