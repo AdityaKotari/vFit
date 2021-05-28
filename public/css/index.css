@@ -1,0 +1,16 @@
+.homebuttons{
+    width: 300px !important;
+    height: 200px !important;
+    text-align: center !important;
+}
+.headers{
+    text-align: center;
+}
+.loginsegment{
+    margin-left: 200px !important;
+    margin-right: 200px !important;
+    margin-top: 20px !important;
+}
+.homebuttongrid{
+    margin: 150px !important;
+}
