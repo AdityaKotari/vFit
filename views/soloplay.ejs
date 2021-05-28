@@ -4,26 +4,60 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/public/css/solo_game.css">
     <title>Document</title>
     <%- include('./partials/head'); %>
 </head>
 <body>
-    <%- include('./partials/navbar'); %>
-    <div class="ui middle aligned equal width grid">
-        <div class="column">
-            
-        </div>
-        <div class="column">
+    <!-- <%- include('./partials/navbar'); %> -->
+    <div>
+        <div class="ui grid">
+            <div class="row">
+              
+                <div class="four wide column"></div>
+                <div class="four wide column"></div>
+                <div class="two wide column"></div>
+                <div class="four wide column">
+                    <br>
+                    <br>
+                    <br>
+                
+                    <img class="ui huge rounded image" id="poseImg" src="/public/images/warrior_2.jpg">
+                    <h1 id="poseName"></h1>
+                    <h2 id="english"></h2>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="two wide column">
+
+                </div>
+                <div class="six wide column">
+                      <h1 id="time"></h1>
+                </div>
+                <div class="six wide column"></div>
+                <div class="two wide column">
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <h2 id="next_asana"></h2>
+              </div>
+            </div>
+            <div class="ui vertical divider">
+               
+              </div>
+                
+              
+    
+    
+    
+           
+       
            
         </div>
-        <div class="column">
-            <h1 id="time"></h1>
-        <h2 id="poseName"></h2>
-        </div>
-      </div>
-    <div>
-       
     </div>
+   
     
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.min.js"></script>
