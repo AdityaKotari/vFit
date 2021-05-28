@@ -10,7 +10,10 @@ var cors = require("cors")
 
 app.use(cors())
 app.use(express.json())
+
 app.set("view engine", "ejs")
+
+app.use(express.static(__dirname + '/public'));
 
 app.use("/api/user", require("./routes/user.js"))
 app.use("/api/room", require("./routes/room.js"))

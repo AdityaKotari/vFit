@@ -6,19 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <%- include('./partials/head'); %>
-    <title>Document</title>
+    
 </head>
 <body>
     <%- include('./partials/navbar'); %>
-    <div class="ui middle aligned equal width grid">
+    <div class="ui equal width grid center aligned homebuttongrid">
         <div class="column">
-            <a href="/soloplay" class="large ui button">Play solo</a>    
+            <button onclick="window.location.href='/soloplay'" class="large ui button massive circular homebuttons">Play solo</button>    
         </div>
         <div class="column">
-            <a href="/friendplay" class="large ui button">Play with a friend</a>    
+            <button onclick="window.location.href='/friendplay'" class="large ui button massive circular homebuttons">Play with a friend</button>    
         </div>
         <div class="column">
-            <a href="/randomplay" class="large ui button">Match with a random</a>    
+            <button onclick="window.location.href='/randomplay'" class="large ui button massive circular homebuttons">Match with a random</button>    
         </div>
       </div>
     
