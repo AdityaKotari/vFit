@@ -13,7 +13,7 @@ import {
 } from "semantic-ui-react"
 
 import Topnav from "../Topnav.js"
-
+import ScriptTag from 'react-script-tag';
 const Solo = () => {
     const [currentPose, setCurrentPose] = useState(0)
     const [poses, setPoses] = useState([{}])
@@ -34,13 +34,15 @@ const Solo = () => {
             <Topnav />
             <Grid columns={2} relaxed>
                 <Grid.Column>
-                    <Segment className="solovideo">
-                        insert webcam vid here
-                    </Segment>
+                    {/* <Segment className="solovideo">
+                       
+                        
+                    </Segment> */}
                 </Grid.Column>
                 <Grid.Column className="poseorder">
-                    <h1>Pose order</h1>
-                    <Item.Group divided>
+                    <h1 id="time"></h1>
+                    <p id="poseName"></p>
+                    {/* <Item.Group divided>
                         {poses.map((pose) => {
                             return (
                                 <div>
@@ -54,15 +56,33 @@ const Solo = () => {
                                 </div>
                             )
                         })}
-                    </Item.Group>
+                    </Item.Group> */}
                 </Grid.Column>
             </Grid>
             <Segment basic>
+            <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br /> 
+                        <br />
+                        <br />
+                        <h1 id="asana"></h1>
                 Progress:
                 <Progress percent={11} />
             </Segment>
             <Button>start</Button>
+           
+             <ScriptTag isHydrating={true} type="text/javascript" src="/posenet_files/sketch.js" />
+
         </div>
+
     )
 }
 

@@ -10,7 +10,7 @@ import {
 import Home from './components/screens/Home'; 
 import Signup from './components/screens/Signup'; 
 import Solo from './components/screens/Solo'; 
-
+import ScriptTag from 'react-script-tag';
 
 import './App.css'
 
@@ -40,6 +40,7 @@ const Routing = () =>
 function App() {
   return (
       <Router>
+        
         <div className="myApp">
           {/* <Navbar />
           <Sidenav /> */}
