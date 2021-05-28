@@ -1,23 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    
+
     <%- include('./partials/head'); %>
-    
+        <style>
+            body {
+                overflow-y: hidden;
+            }
+        </style>
 </head>
+
 <body>
     <%- include('./partials/navbar'); %>
-    <div class="ui equal width grid center aligned homebuttongrid">
-        <div class="column">
-            <button onclick="window.location.href='/soloplay'" class="large ui button massive circular homebuttons">Play solo</button>    
+        <div class="ui center aligned padded grid homebuttongrid">
+            <div class="four wide column">
+                <button onclick="window.location.href='/soloplay'"
+                    class="large ui button massive circular homebuttons">Play solo</button>
+            </div>
+            <div class="five wide column">
+                <button onclick="window.location.href='/friendplay'"
+                    class="large ui button massive circular homebuttons">Play with a friend</button>
+            </div>
+            <div class="four wide column">
+                <button onclick="window.location.href='/randomplay'"
+                    class="large ui button massive circular homebuttons">Match with a random</button>
+            </div>
+            <div class="three wide grey column">
+                <h1 class="headers ui header">Friends</h1>
+                <div class="ui divided very relaxed huge list" id="friendlist">
+                    
+                </div>
+            </div>
         </div>
-        <div class="column">
-            <button onclick="window.location.href='/friendplay'" class="large ui button massive circular homebuttons">Play with a friend</button>    
-        </div>
-        <div class="column">
-            <button onclick="window.location.href='/randomplay'" class="large ui button massive circular homebuttons">Match with a random</button>    
-        </div>
-      </div>
-    
+        <script>
+            const friends = [{ name: "balaji pranav" }, { name: "pranav balaji" }, { name: "balaji pranav" }, { name: "pranav balaji" }];
+            //get friends list from fetch
+            var friendlist = document.getElementById("friendlist");
+            friends.forEach(element => {
+                var item = document.createElement("div");
+                item.setAttribute('class', "item");
+                //this only works if everything is in the same line
+                item.innerHTML = "<div class='content'><i class='large user circle icon'></i>"+element.name+"</div> ";
+                friendlist.appendChild(item);
+            });
+
+        </script>
 </body>
+
 </html>

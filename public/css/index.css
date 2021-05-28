@@ -1,4 +1,8 @@
+.navbar{
+    margin: 0px !important;
+}
 .homebuttons{
+    margin-top: 200px !important    ;
     width: 300px !important;
     height: 200px !important;
     text-align: center !important;
@@ -12,5 +16,10 @@
     margin-top: 20px !important;
 }
 .homebuttongrid{
-    margin: 150px !important;
+    margin: 0px !important;
+    padding-top: 0px !important;
+    height: 100%;   
+}
+#friendlist{
+    text-align: left;
 }
