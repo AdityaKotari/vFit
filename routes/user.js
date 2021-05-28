@@ -1,5 +1,3 @@
-//all places with "pog" need to be replaced with db related code
-
 var express = require('express');
 var router = express.Router();
 
