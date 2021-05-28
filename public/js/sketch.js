@@ -44,9 +44,9 @@ function setup() {
   
   yogaNN = ml5.neuralNetwork(options);
  const modelInfo = {
-    model: '/public/posenet_models/model.json',
-    metadata: '/public/posenet_models/model_meta.json',
-    weights: '/public/posenet_models/model.weights.bin',
+    model: '/public/js/posenet_models/model.json',
+    metadata: '/public/js/posenet_models/model_meta.json',
+    weights: '/public/js/posenet_models/model.weights.bin',
   };
   yogaNN.load(modelInfo, yogiLoaded);
 
