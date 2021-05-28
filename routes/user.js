@@ -150,10 +150,10 @@ router.post("/friends/add/:user_id", requireLogin, (req, res) => {
 router.put("/friends/accept/:user_id", requireLogin, (req, res) => {
   const { authorization } = req.headers;
   const payload = jwt.decode(authorization.replace("Bearer ", ""));
-  const recipient = req.params["user_id"];
+  const to_be_accepted = req.params["user_id"];
 
   con.query(
-    `UPDATE friendship SET status = 1 WHERE user_id1 = ${payload.user_id} AND user_id2 = ${recipient}`,
+    `UPDATE friendship SET status = 1 WHERE user_id2 = ${payload.user_id} AND user_id1 = ${to_be_accepted}`,
     function (err, result) {
       console.log(result);
       if (err) throw err;
