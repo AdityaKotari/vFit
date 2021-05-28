@@ -34,7 +34,7 @@ router.post('/signup', (req, res) => {
     });
 })
 
-//logs in a user, requires {email, password}
+//logs in a user, requires {username, password}
 router.post('/login', (req, res) => {
     const {username, password} = req.body
     if(!username||!password){
