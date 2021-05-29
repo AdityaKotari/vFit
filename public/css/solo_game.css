@@ -1,18 +1,13 @@
 #time
 {
-    font-size: 80px;
-}
-
-.time2
-{
-    font-size: 30px;
+    font-size: 100px;
 }
 
 #poseName, #you
 {
     font-size: 70px;
     
-    
+    ;
 }
 
 .mainPanel
@@ -40,6 +35,6 @@
 #poseImg
 {
     display: block; margin-left: auto; margin-right: auto ;
-    max-height: 480px;
-   
+    /* height: 480px;
+    width: 640px; */
 }
