@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <%- include('./partials/head'); %>
+
+</head>
+
+<body>
+    <%- include('./partials/navbar'); %>
+
+        <h1 class="headers" size='huge'>vFit: encouraging fat people genocide since 2021</h1>
+        <div class="ui basic segment loginsegment">
+            <div class="ui two column very relaxed stackable grid">
+                <div class="column">
+                    <h1 class="headers" size='huge'>Log in</h1>
+                    <div class="ui form">
+                        <div class="field">
+                            <label>Username</label>
+                            <div class="ui left icon input">
+                                <input type="text" placeholder="Username">
+                                <i class="user icon"></i>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>Password</label>
+                            <div class="ui left icon input">
+                                <input type="password" placeholder="Password">
+                                <i class="lock icon"></i>
+                            </div>
+                        </div>
+                        <div class="ui submit button" onclick="submit_login()">Login</div>
+                    </div>
+                </div>
+                <div class="middle aligned column">
+                    <h1 class="headers" size='huge'>Sign up</h1>
+                    <div class="ui form">
+                        <div class="field">
+                            <label>Username</label>
+                            <div class="ui left icon input">
+                                <input type="text" placeholder="Username">
+                                <i class="user icon"></i>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>Email</label>
+                            <div class="ui left icon input">
+                                <input type="text" placeholder="Email">
+                                <i class="envelope icon"></i>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>City</label>
+                            <div class="ui left icon input">
+                                <input type="City" placeholder="City">
+                                <i class="globe icon"></i>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>Password</label>
+                            <div class="ui left icon input">
+                                <input type="password" placeholder="Password">
+                                <i class="lock icon"></i>
+                            </div>
+                        </div>
+
+                        <div class="ui submit button" onclick="submit_login()">Login</div>
+                    </div>
+                </div>
+            </div>
+            <div class="ui vertical divider">
+                Or
+            </div>
+        </div>
+        </div>
+</body>
+
+</html>

@@ -1,0 +1,40 @@
+#time
+{
+    font-size: 100px;
+}
+
+#poseName, #you
+{
+    font-size: 70px;
+    
+    ;
+}
+
+.mainPanel
+{
+    padding-top: 30px !important;
+}
+
+.ui.container
+{
+    width: 1400px !important;
+}
+
+.banner
+{
+    font-size: 90px;
+    padding-bottom: 0px !important;
+    margin: 0px !important;
+}
+
+.leftPanel
+{
+    text-align: center !important;
+}
+
+#poseImg
+{
+    display: block; margin-left: auto; margin-right: auto ;
+    /* height: 480px;
+    width: 640px; */
+}

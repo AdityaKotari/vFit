@@ -10,7 +10,10 @@ var cors = require("cors")
 
 app.use(cors())
 app.use(express.json())
+
 app.set("view engine", "ejs")
+
+app.use(express.static(__dirname + '/public'));
 
 app.use("/api/user", require("./routes/user.js"))
 app.use("/api/room", require("./routes/room.js"))
@@ -21,13 +24,17 @@ app.get("/", (req, res) => {
 })
 
 app.use(express.static(path.join(__dirname, 'frontend/build'))); 
-app.use("/posenet_models", express.static(__dirname + "/posenet_models"));
+app.use("/public", express.static(__dirname + "/public"));
 app.get("/friendplay", (req, res) => {
     res.render("friendplay")
 })
 
 app.get("/soloplay", (req, res) => {
     res.render("soloplay")
+})
+
+app.get("/signup", (req, res) => {
+    res.render("signup")
 })
 
 app.listen(port, () => {
