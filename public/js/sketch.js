@@ -4,6 +4,7 @@ let pose;
 let yogaNN; 
 var iterationCounter;
 let state = 'predict'; 
+let timeLimit = 5; 
 var timeLeft; 
 let target; 
 let poseCounter; 
@@ -14,14 +15,14 @@ let english = ['Mountain', 'Tree', 'Downward Dog', 'Warrior I', 'Warrior II', 'C
 let posesArray = ['Tadasana', 'Vrikshasana', 'Adhoukha svanasana', 'Vidarbhasana I', 'Vidarbhasana II', 'Utkatasana'];
 function setup() {
   var canvas = createCanvas(640, 480);
-  canvas.position(100, 60)
+  canvas.position(220, 170)
   video = createCapture(VIDEO);
   video.size(width, height);
    targetLabel = 1; 
   iterationCounter = 0; 
   poseCounter = 0; 
   errorCounter = 0; 
-  timeLeft = 10; 
+  timeLeft = timeLimit; 
   target = posesArray[poseCounter]; 
    document.getElementById("poseName").textContent = target;
   // Create a new poseNet method with a single detection
@@ -51,6 +52,7 @@ function setup() {
   // Hide the video element, and just show the canvas
   document.getElementById("poseImg").src = imgArray[poseCounter].src;
   document.getElementById("next_asana").textContent = posesArray[poseCounter+1] + " >> "; 
+  document.getElementById("english").textContent = '"' + english[poseCounter] +  '"'; 
 
   
   let options = {
@@ -136,7 +138,7 @@ function gotResult(error, results) {
 
       console.log(iterationCounter)
       
-      if (iterationCounter == 10) {
+      if (iterationCounter == timeLimit) {
         console.log("30!")
         iterationCounter = 0;
         nextPose();}
@@ -154,7 +156,7 @@ function gotResult(error, results) {
       if (errorCounter >= 4){
         console.log("four errors");
         iterationCounter = 0;
-        timeLeft = 10;
+        timeLeft = timeLimit;
         if (timeLeft < 10){
           document.getElementById("time").textContent = "00:0" + timeLeft;
         }else{
@@ -188,7 +190,7 @@ function nextPose(){
     console.log("next pose target label" + targetLabel)
     target = posesArray[poseCounter];
     document.getElementById("poseName").textContent = target;
-
+    document.getElementById("english").textContent = '"' + english[poseCounter] +  '"'; 
     document.getElementById("poseImg").src = imgArray[poseCounter].src;
     if (poseCounter < 5)
     {
@@ -200,7 +202,7 @@ function nextPose(){
     }
     
 
-    timeLeft = 10;
+    timeLeft = timeLimit;
     document.getElementById("time").textContent = "00:" + timeLeft;
     setTimeout(classifyPose, 4000)}
 }
