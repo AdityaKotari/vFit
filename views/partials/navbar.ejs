@@ -3,10 +3,17 @@
     <a class="item" href="/">
         <h2>vFit</h2>
     </a>
-    <a class="item" >Something else</a>
-    <a class="item right" href="/signup">
+    <a class="item" >Some slogan</a>
+    <a class="item right"  href="/signup">
         <i class="large user circle icon"></i>
-        Sign-in
+        <p id="profileicon">Sign up</p>
     </a>
-    
+    <script>
+        let user = localStorage.getItem("user")
+        if(user && user!==""){
+            user = JSON.parse(user);
+            document.getElementById("profileicon").innerText = user.username;
+        }
+        
+    </script>
 </div>
