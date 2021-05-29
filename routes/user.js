@@ -1,4 +1,4 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
 
 const bcrypt = require("bcryptjs");
@@ -14,7 +14,7 @@ router.post("/signup", (req, res) => {
     return res.status(422).json({ error: "Some arguments are missing" });
   }
   con.query(
-    `INSERT INTO user VALUES (DEFAULT, '${username}', '${password}', '${email}', 0, ${city_id}, 0)`,
+    `INSERT INTO user VALUES (DEFAULT, '${username}', '${password}', '${email}', 0, ${city_id}, 0, NULL)`,
     function (err, result) {
       if (err) {
         if (err.code == "ER_DUP_ENTRY") {
@@ -46,11 +46,15 @@ router.post("/login", (req, res) => {
       console.log(result);
       if (err) throw err;
       if (result.length && result[0].password == password)
-        return res.send(
-          jwt.sign({ user_id: result[0].user_id }, process.env.JWT_SECRET, {
-            expiresIn: jwt_expiry_time,
-          })
-        );
+        return res.json({
+          jwt: jwt.sign(
+            { user_id: result[0].user_id },
+            process.env.JWT_SECRET,
+            {
+              expiresIn: jwt_expiry_time,
+            }
+          ),
+        });
       else return res.send("Wrong credentials");
     }
   );
@@ -80,9 +84,8 @@ router.get("/friends", requireLogin, (req, res) => {
   results = { friends: [], incoming: [], outgoing: [] };
 
   //friends
-  con
-    .query(
-      `SELECT user.user_id, user.username, user.email, city.city_name, city.city_id, user.profile_url
+  con.query(
+    `SELECT user.user_id, user.username, user.email, city.city_name, city.city_id, user.profile_url
                 FROM friendship
                 INNER JOIN user ON user.user_id = friendship.user_id2
                 INNER JOIN city ON user.city_id = city.city_id
@@ -93,41 +96,41 @@ router.get("/friends", requireLogin, (req, res) => {
                 INNER JOIN user ON user.user_id = friendship.user_id1
                 INNER JOIN city ON user.city_id = city.city_id
                 WHERE friendship.user_id2 = ${payload.user_id} AND friendship.status = 1`,
-      function (err, result) {
-        console.log(result);
-        if (err) throw err;
-        if (result.length) results.friends.push(...result);
-        //incoming
-        con.query(
-          `SELECT user.user_id, user.username, user.email, city.city_name, city.city_id, user.profile_url
+    function (err, result) {
+      console.log(result);
+      if (err) throw err;
+      if (result.length) results.friends.push(...result);
+      //incoming
+      con.query(
+        `SELECT user.user_id, user.username, user.email, city.city_name, city.city_id, user.profile_url
                     FROM friendship
                     INNER JOIN user ON user.user_id = friendship.user_id1
                     INNER JOIN city ON user.city_id = city.city_id
                     WHERE friendship.user_id2 = ${payload.user_id} AND friendship.status = 0`,
-          function (err, result) {
-            console.log(result);
-            if (err) throw err;
-            if (result.length) results.incoming.push(...result);
-            //outgoing
-            con.query(
-              `SELECT user.user_id, user.username, user.email, city.city_name, city.city_id, user.profile_url
+        function (err, result) {
+          console.log(result);
+          if (err) throw err;
+          if (result.length) results.incoming.push(...result);
+          //outgoing
+          con.query(
+            `SELECT user.user_id, user.username, user.email, city.city_name, city.city_id, user.profile_url
                 FROM friendship
                 INNER JOIN user ON user.user_id = friendship.user_id2
                 INNER JOIN city ON user.city_id = city.city_id
                 WHERE friendship.user_id1 = ${payload.user_id} AND friendship.status = 0`,
-              function (err, result) {
-                console.log("outgoing: ", result);
-                if (err) throw err;
-                if (result.length) {
-                  results.outgoing.push(...result);
-                }
-                return res.send(results);
+            function (err, result) {
+              console.log("outgoing: ", result);
+              if (err) throw err;
+              if (result.length) {
+                results.outgoing.push(...result);
               }
-            );
-          }
-        );
-      }
-    )
+              return res.send(results);
+            }
+          );
+        }
+      );
+    }
+  );
 });
 
 router.post("/friends/add/:user_id", requireLogin, (req, res) => {

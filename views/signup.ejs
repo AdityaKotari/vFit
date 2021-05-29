@@ -7,6 +7,25 @@
 
 </head>
 
+<script>
+    function submit_login() {
+        var username = document.getElementById("loginUsername").value;
+        var password = document.getElementById("loginPassword").value;
+        fetch("/api/user/login", {
+        method: "POST",
+        body: JSON.stringify({"username": username, "password": password}),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8"
+        },
+      })
+        .then((response) => response.json())
+        .then((json) => {
+          console.log(json);
+          localStorage.setItem("jwt", json.jwt);
+        });
+    }
+</script>
+
 <body>
     <%- include('./partials/navbar'); %>
 
@@ -19,14 +38,14 @@
                         <div class="field">
                             <label>Username</label>
                             <div class="ui left icon input">
-                                <input type="text" placeholder="Username">
+                                <input type="text" placeholder="Username" id="loginUsername">
                                 <i class="user icon"></i>
                             </div>
                         </div>
                         <div class="field">
                             <label>Password</label>
                             <div class="ui left icon input">
-                                <input type="password" placeholder="Password">
+                                <input type="password" placeholder="Password" id="loginPassword">
                                 <i class="lock icon"></i>
                             </div>
                         </div>
