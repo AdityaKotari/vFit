@@ -30,7 +30,7 @@ router.post("/signup", (req, res) => {
                 return res.json(
                     {token: jwt.sign(
                         { user_id: result.insertId },
-                        process.env.JWT_SECRET,
+                        ""+process.env.jwt_secret,
                         {
                             expiresIn: jwt_expiry_time,
                         }
@@ -57,7 +57,7 @@ router.post("/login", (req, res) => {
                 return res.json({
                     token: jwt.sign(
                         { user_id: result[0].user_id },
-                        process.env.JWT_SECRET,
+                        process.env.jwt_secret,
                         {
                             expiresIn: jwt_expiry_time,
                         }

@@ -1,7 +1,7 @@
 {
   "name": "vfit",
   "version": "1.0.0",
-  "description": "",
+  "description": "All commits to the main branch are deployed automatically to https://v-fit.herokuapp.com/\r (so don't commit to main or make a PR without testing the production build)",
   "main": "index.js",
   "dependencies": {
     "bcryptjs": "^2.4.3",
