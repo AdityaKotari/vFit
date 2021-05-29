@@ -15,7 +15,7 @@ let english = ['Mountain', 'Tree', 'Downward Dog', 'Warrior I', 'Warrior II', 'C
 let posesArray = ['Tadasana', 'Vrikshasana', 'Adhoukha svanasana', 'Vidarbhasana I', 'Vidarbhasana II', 'Utkatasana'];
 function setup() {
   var canvas = createCanvas(640, 480);
-  canvas.position(20, 95)
+  canvas.position(50, 95)
   video = createCapture(VIDEO);
   video.size(width, height);
    targetLabel = 1; 
@@ -51,8 +51,8 @@ function setup() {
   
   // Hide the video element, and just show the canvas
   document.getElementById("poseImg").src = imgArray[poseCounter].src;
-  document.getElementById("next_asana").textContent = posesArray[poseCounter+1] + " >> "; 
-  document.getElementById("english").textContent = '"' + english[poseCounter] +  '"'; 
+  document.getElementById("next_asana").textContent = posesArray[poseCounter+1]; 
+  document.getElementById("english").textContent = english[poseCounter]; 
 
   
   let options = {
@@ -226,7 +226,7 @@ function nextPose(){
     document.getElementById("poseImg").src = imgArray[poseCounter].src;
     if (poseCounter < 5)
     {
-      document.getElementById("next_asana").textContent = posesArray[poseCounter+1] + " >> "; 
+      document.getElementById("next_asana").textContent = posesArray[poseCounter+1]; 
     }
     else
     {

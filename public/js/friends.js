@@ -14,8 +14,8 @@ var poseImage;
 let english = ['Mountain', 'Tree', 'Downward Dog', 'Warrior I', 'Warrior II', 'Chair'];
 let posesArray = ['Tadasana', 'Vrikshasana', 'Adhoukha svanasana', 'Vidarbhasana I', 'Vidarbhasana II', 'Utkatasana'];
 function setup() {
-  var canvas = createCanvas(320, 240);
-  canvas.position(900, 170)
+  var canvas = createCanvas(640, 480);
+  canvas.position(800, 170)
   video = createCapture(VIDEO);
   video.size(width, height);
    targetLabel = 1; 
