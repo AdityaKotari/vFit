@@ -132,7 +132,29 @@ function gotResult(error, results) {
 
   if (results[0].confidence > 0.70) {
     console.log("Confidence");
-    if (results[0].label == targetLabel.toString()){
+    if (targetLabel == 6)
+     {
+      console.log(targetLabel);
+      iterationCounter = iterationCounter + 1;
+
+      console.log(iterationCounter)
+      
+      if (iterationCounter == timeLimit) {
+        console.log("30!")
+        iterationCounter = 0;
+        nextPose();}
+      else{
+        console.log("doin this")
+        timeLeft = timeLeft - 1;
+        if (timeLeft < 10){
+          document.getElementById("time").textContent = "00:0" + timeLeft;
+        }else{
+        document.getElementById("time").textContent = "00:" + timeLeft;}
+        setTimeout(classifyPose, 1000);}
+     }
+
+   
+   else if (results[0].label == targetLabel.toString()){
       console.log(targetLabel);
       iterationCounter = iterationCounter + 1;
 
