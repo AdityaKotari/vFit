@@ -156,9 +156,9 @@ function gotResult(error, results) {
 function nextPose(){
   if (poseCounter >= 5) {
     console.log("Well done, you have learnt all poses!");
-    document.getElementById("time").textContent = "Well done!";
-    document.getElementById("time2").textContent = "All poses done.";
-    // document.getElementById("sparkles").style.display = 'block';
+    document.getElementById("finish").textContent = "Amazing!";
+    document.getElementById("welldone").textContent = "All poses done.";
+    document.getElementById("sparkles").style.display = 'block';
   }else{
     console.log("Well done, you all poses!");
     //var stars = document.getElementById("starsid");

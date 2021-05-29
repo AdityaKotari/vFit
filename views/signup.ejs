@@ -7,6 +7,25 @@
 
 </head>
 
+<script>
+    function submit_login() {
+        var username = document.getElementById("loginUsername").value;
+        var password = document.getElementById("loginPassword").value;
+        fetch("/api/user/login", {
+        method: "POST",
+        body: JSON.stringify({"username": username, "password": password}),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8"
+        },
+      })
+        .then((response) => response.json())
+        .then((json) => {
+          console.log(json);
+          localStorage.setItem("jwt", json.jwt);
+        });
+    }
+</script>
+
 <body>
     <%- include('./partials/navbar'); %>
 
@@ -15,27 +34,27 @@
             <div class="ui two column very relaxed stackable grid">
                 <div class="column">
                     <h1 class="headers" size='huge'>Log in</h1>
-                    <div class="ui form">
+                    <form class="ui form" id="login_form">
                         <div class="field">
                             <label>Username</label>
                             <div class="ui left icon input">
-                                <input type="text" placeholder="Username">
+                                <input type="text" placeholder="Username" id="loginUsername">
                                 <i class="user icon"></i>
                             </div>
                         </div>
                         <div class="field">
                             <label>Password</label>
                             <div class="ui left icon input">
-                                <input type="password" placeholder="Password">
+                                <input type="password" placeholder="Password" id="loginPassword">
                                 <i class="lock icon"></i>
                             </div>
                         </div>
-                        <div class="ui submit button" onclick="submit_login()">Login</div>
-                    </div>
+                        <div class="ui submit button" onclick="login_submit()">Login</div>
+                    </form>
                 </div>
                 <div class="middle aligned column">
                     <h1 class="headers" size='huge'>Sign up</h1>
-                    <div class="ui form">
+                    <form class="ui form" id="signup_form">
                         <div class="field">
                             <label>Username</label>
                             <div class="ui left icon input">
@@ -51,12 +70,15 @@
                             </div>
                         </div>
                         <div class="field">
-                            <label>City</label>
-                            <div class="ui left icon input">
-                                <input type="City" placeholder="City">
+                            <label>City<span class="ui header red tiny">*</span></label>
+                            <div class="ui left icon disabled input">
+
+                                <input type="City" placeholder="City" value="Hyderabad">
                                 <i class="globe icon"></i>
                             </div>
                         </div>
+
+
                         <div class="field">
                             <label>Password</label>
                             <div class="ui left icon input">
@@ -65,8 +87,9 @@
                             </div>
                         </div>
 
-                        <div class="ui submit button" onclick="submit_login()">Login</div>
-                    </div>
+                        <div class="ui submit button" onclick="signup_submit()">Sign up</div>
+                        <h6 class="ui red header tiny">*Currently only available in Hyderabad</h6>
+                    </form>
                 </div>
             </div>
             <div class="ui vertical divider">
@@ -74,6 +97,79 @@
             </div>
         </div>
         </div>
+
+        <script>
+            function login_submit() {
+                form = document.getElementById("login_form");
+
+                fetch("/api/user/login", {
+                    method: "post",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        username: form[0].value,
+                        password: form[1].value
+                    })
+                }).then(res => res.json())
+                    .then(data => {
+                        console.log(data)
+                        if (data.error) {
+                            alert(data.error)
+                        }
+                        else {
+                            //console.log(data)
+                            localStorage.setItem("jwt", data.token)
+                            localStorage.setItem("user", JSON.stringify({ username: form[0].value }))
+                            // console.log("jwt token", data.token)
+                            // console.log("User data", data.user);
+                            // dispatch({ type: "USER", payload: data.user })
+                            // history.push('/')
+                            window.location.href = "/"
+                        }
+                    }).catch(err => {
+                        console.log(err)
+                    })
+
+            };
+            function signup_submit() {
+                form = document.getElementById("signup_form");
+
+                fetch("/api/user/signup", {
+                    method: "post",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        username: form[0].value,
+                        password: form[3].value,
+                        city_id: 1,
+                        email: form[1].value
+                    })
+                }).then(res => res.json())
+                    .then(data => {
+                        console.log(data)
+                        if (data.error) {
+                            alert(data.error)
+                        }
+                        else {
+                            // console.log(JSON.stringify({
+                            //     username: form[0].value,
+                            //     password: form[3].value,
+                            //     city_id: 1,
+                            //     email: form[1].value
+                            // }))
+                            localStorage.setItem("jwt", data.token)
+                            localStorage.setItem("user", JSON.stringify({username: form[0].value}))
+                            
+                            window.location.href = "/"
+                        }
+                    }).catch(err => {
+                        console.log(err)
+                    })
+
+            };
+        </script>
 </body>
 
 </html>

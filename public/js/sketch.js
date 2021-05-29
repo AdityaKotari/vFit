@@ -4,7 +4,7 @@ let pose;
 let yogaNN; 
 var iterationCounter;
 let state = 'predict'; 
-let timeLimit = 10; 
+let timeLimit = 5; 
 var timeLeft; 
 let target; 
 let poseCounter; 
@@ -15,7 +15,7 @@ let english = ['Mountain', 'Tree', 'Downward Dog', 'Warrior I', 'Warrior II', 'C
 let posesArray = ['Tadasana', 'Vrikshasana', 'Adhoukha svanasana', 'Vidarbhasana I', 'Vidarbhasana II', 'Utkatasana'];
 function setup() {
   var canvas = createCanvas(640, 480);
-  canvas.position(20, 95)
+  canvas.position(220, 170)
   video = createCapture(VIDEO);
   video.size(width, height);
    targetLabel = 1; 
@@ -130,8 +130,6 @@ function classifyPose()
 
 function gotResult(error, results) {
 
-if (results)
-{
   if (results[0].confidence > 0.70) {
     console.log("Confidence");
     if (results[0].label == targetLabel.toString()){
@@ -171,20 +169,16 @@ if (results)
   else{
     console.log("whatwe really dont want")
     setTimeout(classifyPose, 100);
-}
-
-}
-
- }
+}}
 
 
 
 function nextPose(){
   if (poseCounter >= 5) {
     console.log("Well done, you have learnt all poses!");
-    document.getElementById("time").textContent = "Well done!";
-    document.getElementById("time2").textContent = "You have learnt all poses.";
-  
+    document.getElementById("finish").textContent = "Amazing!";
+    document.getElementById("welldone").textContent = "All poses done.";
+    document.getElementById("sparkles").style.display = 'block';
   }else{
     console.log("Well done, you all poses!");
     //var stars = document.getElementById("starsid");
@@ -207,7 +201,7 @@ function nextPose(){
       document.getElementById("next_asana").textContent = ""; 
     }
     
-    console.log("reached till here"); 
+
     timeLeft = timeLimit;
     document.getElementById("time").textContent = "00:" + timeLeft;
     setTimeout(classifyPose, 4000)}
