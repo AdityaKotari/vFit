@@ -7,7 +7,7 @@
         overflow-y: hidden;
       }
     </style> -->
-    <link rel="stylesheet" href="/css/chat.css" type="text/css"/>
+    <link rel="stylesheet" href="/css/chat.css" type="text/css" />
   </head>
 
   <body>
@@ -42,42 +42,24 @@
         <div class="ui divided very relaxed huge list" id="friendlist"></div>
       </div>
     </div>
-    <div class="center-chat">
-        <div class="chat">
-          <div class="contact bar">
-            <div class="pic stark"></div>
-            <div class="name">Tony Stark</div>
-            <div class="seen">Today at 12:56</div>
-          </div>
-          <div class="messages" id="chat">
-            <div class="time">Today at 11:41</div>
-            <div class="message parker">Hey, man! What's up, Mr Stark? 👋</div>
-            <div class="message stark">Kid, where'd you come from?</div>
-            <div class="message parker">Field trip! 🤣</div>
-            <div class="message parker">
-              Uh, what is this guy's problem, Mr. Stark? 🤔
-            </div>
-            <div class="message stark">
-              Uh, he's from space, he came here to steal a necklace from a
-              wizard.
-            </div>
-            <div class="message stark">
-              <div class="typing typing-1"></div>
-              <div class="typing typing-2"></div>
-              <div class="typing typing-3"></div>
-            </div>
-          </div>
-          <div class="input">
-            <i class="fas fa-camera"></i><i class="far fa-laugh-beam"></i
-            ><input placeholder="Type your message here!" type="text" /><i
-              class="fas fa-microphone"
-            ></i>
-          </div>
-        </div>
-      </div>
     <script>
     //   var chat = document.getElementById("chat");
     //   chat.scrollTop = chat.scrollHeight - chat.clientHeight;
+
+      function showChat(id) {
+        var chat = document.getElementsByClassName("center-chat")[0];
+        console.log(chat);
+        if(chat.style.display =='block' && chat.id == id)
+        {
+            chat.style.display = 'none';
+        }
+        else
+        {
+            chat.style.display = 'block';
+            chat.id = id;
+        }
+      }
+
       var interactions = {};
       fetch("/api/user/friends", {
         method: "GET",
@@ -99,7 +81,9 @@
           item.setAttribute("class", "item");
           //this only works if everything is in the same line
           item.innerHTML =
-            "<button class='ui button'><i class='large user circle icon'></i>" +
+            "<button class='ui button' onclick='showChat(" +
+            element.user_id +
+            ")'><i class='large user circle icon'></i>" +
             element.username +
             "</button> ";
           friendlist.appendChild(item);
@@ -107,4 +91,36 @@
       }
     </script>
   </body>
+  <div class="center-chat" id="0">
+    <div class="chat">
+      <div class="contact bar">
+        <div class="pic stark"></div>
+        <div class="name">Tony Stark</div>
+        <div class="seen">Today at 12:56</div>
+      </div>
+      <div class="messages" id="chat">
+        <div class="time">Today at 11:41</div>
+        <div class="message self">Hey, man! What's up, Mr Stark? 👋</div>
+        <div class="message other">Kid, where'd you come from?</div>
+        <div class="message self">Field trip! 🤣</div>
+        <div class="message self">
+          Uh, what is this guy's problem, Mr. Stark? 🤔
+        </div>
+        <div class="message other">
+          Uh, he's from space, he came here to steal a necklace from a wizard.
+        </div>
+        <div class="message other">
+          <div class="typing typing-1"></div>
+          <div class="typing typing-2"></div>
+          <div class="typing typing-3"></div>
+        </div>
+      </div>
+      <div class="input">
+        <i class="fas fa-camera"></i><i class="far fa-laugh-beam"></i
+        ><input placeholder="Type your message here!" type="text" /><i
+          class="fas fa-microphone"
+        ></i>
+      </div>
+    </div>
+  </div>
 </html>

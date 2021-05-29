@@ -10,6 +10,7 @@ html {
 }
 
 .center-chat {
+  display: none;
   position: absolute;
   top: 50%;
   left: calc(50% + 12rem);
@@ -149,7 +150,7 @@ html {
   box-shadow: 0 0 2rem rgba(0, 0, 0, 0.075),
     0rem 1rem 1rem -1rem rgba(0, 0, 0, 0.1);
 }
-.chat .messages .message.parker {
+.chat .messages .message.self {
   margin: 1rem 1rem 1rem auto;
   border-radius: 1.125rem 1.125rem 0 1.125rem;
   background: #333;
