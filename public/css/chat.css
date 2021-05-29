@@ -43,7 +43,7 @@ html {
   margin-bottom: 0.125rem;
 }
 .contact .message,
-.contact .seen {
+.contact .location {
   font-size: 0.9rem;
   color: #999;
 }
@@ -101,7 +101,6 @@ html {
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   width: 24rem;
   height: 38rem;
   z-index: 2;
@@ -118,6 +117,7 @@ html {
   box-sizing: border-box;
 }
 .chat .messages {
+  height: 100%;
   padding: 1rem;
   background: #f7f7f7;
   flex-shrink: 2;
