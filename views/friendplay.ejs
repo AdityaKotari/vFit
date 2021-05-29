@@ -22,7 +22,7 @@
                            <div class="sixteen wide column">
                             <div class="ui ordered horizontal list">
                                 <div class="item">
-                                  <img class="ui avatar image" src="/public/images/mountain_pose.jpg">
+                                  <img class="ui avatar image"  src="/public/images/mountain_pose.jpg">
                                   <div class="content">
                                     <div class="header">Mountain</div>
                                   
@@ -106,7 +106,7 @@
 <div class="four column row">
     <div class="column">
         <div class="ui medium image">
-            <img src="/public/images/warrior_1.jpg" style=""></img>
+            <img id="poseImg" style=""></img>
         </div>
     </div>
     <div class="column">
@@ -115,9 +115,9 @@
     </div>
    
     <div class="eight wide column center aligned">
-        <h1>Utkatasana</h1>
-        <p>Chair pose</p>
-        <h1>00:30</h1>
+        <h1 id="poseName">Utkatasana</h1>
+        <p id="english">Chair pose</p>
+        <h1 id="time">00:30</h1>
     </div>
 
 
@@ -135,7 +135,7 @@
                 </button>
             </div>
             <div class="two wide column">
-                <button class="ui labeled red large icon button" onclick="endcall()0">
+                <button class="ui labeled red large icon button" onclick="endcall()">
                     <i class="stop icon"></i>
                     End call
                 </button>
@@ -270,6 +270,10 @@
                     }).catch(() => { });
             };
         </script>
+
+<script src = "/public/js/friends.js"></script>
+
+
 
 
 

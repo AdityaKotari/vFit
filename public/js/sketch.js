@@ -4,7 +4,7 @@ let pose;
 let yogaNN; 
 var iterationCounter;
 let state = 'predict'; 
-let timeLimit = 5; 
+let timeLimit = 10; 
 var timeLeft; 
 let target; 
 let poseCounter; 
