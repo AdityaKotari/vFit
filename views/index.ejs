@@ -1,51 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-
+  <head>
     <%- include('./partials/head'); %>
-        <style>
-            body {
-                overflow-y: hidden;
-            }
-        </style>
-</head>
+    <!-- <style>
+      body {
+        overflow-y: hidden;
+      }
+    </style> -->
+    <link rel="stylesheet" href="/css/chat.css" type="text/css"/>
+  </head>
 
-<body>
+  <body>
     <%- include('./partials/navbar'); %>
-        <div class="ui center aligned padded grid homebuttongrid">
-            <div class="four wide column">
-                <button onclick="window.location.href='/soloplay'"
-                    class="large ui button massive circular homebuttons">Play solo</button>
+    <div class="ui center aligned padded grid homebuttongrid">
+      <div class="four wide column">
+        <button
+          onclick="window.location.href='/soloplay'"
+          class="large ui button massive circular homebuttons"
+        >
+          Play solo
+        </button>
+      </div>
+      <div class="five wide column">
+        <button
+          onclick="window.location.href='/friendplay'"
+          class="large ui button massive circular homebuttons"
+        >
+          Play with a friend
+        </button>
+      </div>
+      <div class="four wide column">
+        <button
+          onclick="window.location.href='/randomplay'"
+          class="large ui button massive circular homebuttons"
+        >
+          Match with a random
+        </button>
+      </div>
+      <div class="three wide grey column">
+        <h1 class="headers ui header">Friends</h1>
+        <div class="ui divided very relaxed huge list" id="friendlist"></div>
+      </div>
+    </div>
+    <div class="center-chat">
+        <div class="chat">
+          <div class="contact bar">
+            <div class="pic stark"></div>
+            <div class="name">Tony Stark</div>
+            <div class="seen">Today at 12:56</div>
+          </div>
+          <div class="messages" id="chat">
+            <div class="time">Today at 11:41</div>
+            <div class="message parker">Hey, man! What's up, Mr Stark? 👋</div>
+            <div class="message stark">Kid, where'd you come from?</div>
+            <div class="message parker">Field trip! 🤣</div>
+            <div class="message parker">
+              Uh, what is this guy's problem, Mr. Stark? 🤔
             </div>
-            <div class="five wide column">
-                <button onclick="window.location.href='/friendplay'"
-                    class="large ui button massive circular homebuttons">Play with a friend</button>
+            <div class="message stark">
+              Uh, he's from space, he came here to steal a necklace from a
+              wizard.
             </div>
-            <div class="four wide column">
-                <button onclick="window.location.href='/randomplay'"
-                    class="large ui button massive circular homebuttons">Match with a random</button>
+            <div class="message stark">
+              <div class="typing typing-1"></div>
+              <div class="typing typing-2"></div>
+              <div class="typing typing-3"></div>
             </div>
-            <div class="three wide grey column">
-                <h1 class="headers ui header">Friends</h1>
-                <div class="ui divided very relaxed huge list" id="friendlist">
-                    
-                </div>
-            </div>
+          </div>
+          <div class="input">
+            <i class="fas fa-camera"></i><i class="far fa-laugh-beam"></i
+            ><input placeholder="Type your message here!" type="text" /><i
+              class="fas fa-microphone"
+            ></i>
+          </div>
         </div>
-        <script>
-            const friends = [{ name: "balaji pranav" }, { name: "pranav balaji" }, { name: "balaji pranav" }, { name: "pranav balaji" }];
-            //get friends list from fetch
-            var friendlist = document.getElementById("friendlist");
-            friends.forEach(element => {
-                var item = document.createElement("div");
-                item.setAttribute('class', "item");
-                //this only works if everything is in the same line
-                item.innerHTML = "<div class='content'><i class='large user circle icon'></i>"+element.name+"</div> ";
-                friendlist.appendChild(item);
-            });
-
-        </script>
-</body>
-
+      </div>
+    <script>
+    //   var chat = document.getElementById("chat");
+    //   chat.scrollTop = chat.scrollHeight - chat.clientHeight;
+      var interactions = {};
+      fetch("/api/user/friends", {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+          Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+        },
+      })
+        .then((response) => response.json())
+        .then((json) => {
+          interactions = json;
+          renderFriends();
+        });
+      //get friends list from fetch
+      function renderFriends() {
+        var friendlist = document.getElementById("friendlist");
+        interactions.friends.forEach((element) => {
+          var item = document.createElement("div");
+          item.setAttribute("class", "item");
+          //this only works if everything is in the same line
+          item.innerHTML =
+            "<button class='ui button'><i class='large user circle icon'></i>" +
+            element.username +
+            "</button> ";
+          friendlist.appendChild(item);
+        });
+      }
+    </script>
+  </body>
 </html>

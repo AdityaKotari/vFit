@@ -1,5 +1,6 @@
-var express = require("express")
-var router = express.Router()
+
+var express = require("express");
+var router = express.Router();
 
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
@@ -9,6 +10,7 @@ const jwt_expiry_time = "3 days"
 
 //adds a new user to db, requires { username, password, email, city_id }
 router.post("/signup", (req, res) => {
+
     const { username, password, email, city_id } = req.body
     if (!username || !password || !email || !city_id) {
         return res.status(422).json({ error: "Some arguments are missing" })
@@ -88,9 +90,11 @@ router.get("/friends", requireLogin, (req, res) => {
     const payload = jwt.decode(authorization.replace("Bearer ", ""))
     results = { friends: [], incoming: [], outgoing: [] }
 
+
     //friends
     con.query(
         `SELECT user.user_id, user.username, user.email, city.city_name, city.city_id, user.profile_url
+
                 FROM friendship
                 INNER JOIN user ON user.user_id = friendship.user_id2
                 INNER JOIN city ON user.city_id = city.city_id
@@ -101,6 +105,7 @@ router.get("/friends", requireLogin, (req, res) => {
                 INNER JOIN user ON user.user_id = friendship.user_id1
                 INNER JOIN city ON user.city_id = city.city_id
                 WHERE friendship.user_id2 = ${payload.user_id} AND friendship.status = 1`,
+
         function (err, result) {
             console.log(result)
             if (err) throw err
@@ -123,6 +128,7 @@ router.get("/friends", requireLogin, (req, res) => {
                 INNER JOIN user ON user.user_id = friendship.user_id2
                 INNER JOIN city ON user.city_id = city.city_id
                 WHERE friendship.user_id1 = ${payload.user_id} AND friendship.status = 0`,
+
                         function (err, result) {
                             console.log("outgoing: ", result)
                             if (err) throw err
