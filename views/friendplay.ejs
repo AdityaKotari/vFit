@@ -21,21 +21,21 @@
                         <div class="ui middle center aligned one column grid">
                            <div class="sixteen wide column">
                             <div class="ui ordered horizontal list">
-                                <div class="item">
+                                <div class="item" id="item0" >
                                   <img class="ui avatar image"  src="/public/images/mountain_pose.jpg">
                                   <div class="content">
                                     <div class="header">Mountain</div>
                                   
                                   </div>
                                 </div>
-                                <div class="item">
+                                <div class="item" id="item1" >
                                   <img class="ui avatar image" src="/public/images/tree_pose.jpg">
                                   <div class="content">
                                     <div class="header">Tree</div>
                                  
                                   </div>
                                 </div>
-                                <div class="item">
+                                <div class="item" id="item2" >
                                   <img class="ui avatar image" src="/public/images/downward_dog.jpg">
                                   <div class="content">
                                     <div class="header">Downward Dog</div>
@@ -43,7 +43,7 @@
                                   </div>
                                 </div>
 
-                                <div class="item">
+                                <div class="item" id="item3" >
                                   <img class="ui avatar image" src="/public/images/warrior_1.jpg">
                                   <div class="content">
                                     <div class="header">Warrior I</div>
@@ -51,7 +51,7 @@
                                   </div>
                                 </div>
 
-                                <div class="item">
+                                <div class="item" id="item4" >
                                     <img class="ui avatar image" src="/public/images/warrior_2.jpg">
                                     <div class="content">
                                       <div class="header">Warrior II</div>
@@ -59,7 +59,7 @@
                                     </div>
                                   </div>
 
-                                  <div class="item">
+                                  <div class="item" id="item5" >
                                     <img class="ui avatar image" src="/public/images/chair.jpg">
                                     <div class="content">
                                       <div class="header">Chair</div>
@@ -107,10 +107,30 @@
                      </div>
 
 <div class="four column row">
-    <div class="column">
-        <div class="ui medium image">
+
+    <div class="column  center aligned">
+
+        <div class="ui card">
+            <div class="image">
+              <img src="/images/mountain_pose.jpg" id="poseImg">
+            </div>
+            <div class="content">
+              <a class="header" id="english" >English name</a>
+              
+              <div class="description" >
+              ALSO KNOWN AS
+              </div>
+            </div>
+            <div class="extra content">
+              <a>
+                <i class="user icon"></i>
+              Health benefits
+              </a>
+            </div>
+          </div>
+        <!-- <div class="ui medium image">
             <img id="poseImg" style=""></img>
-        </div>
+        </div> -->
     </div>
     <div class="column">
        
@@ -119,8 +139,16 @@
    
     <div class="eight wide column center aligned">
         <h1 id="poseName">Utkatasana</h1>
-        <p id="english">Chair pose</p>
-        <h1 id="time">00:30</h1>
+       
+        
+        <div class="ui statistic">
+            <div class="value" id="time">
+             00:30
+            </div>
+            <div class="label" id="time2">
+             seconds to go
+            </div>
+          </div>
     </div>
 
 
