@@ -15,7 +15,7 @@ let english = ['Mountain', 'Tree', 'Downward Dog', 'Warrior I', 'Warrior II', 'C
 let posesArray = ['Tadasana', 'Vrikshasana', 'Adhoukha svanasana', 'Vidarbhasana I', 'Vidarbhasana II', 'Utkatasana'];
 function setup() {
   var canvas = createCanvas(640, 480);
-  canvas.position(20, 95)
+  canvas.position(50, 95)
   video = createCapture(VIDEO);
   video.size(width, height);
    targetLabel = 1; 
@@ -51,8 +51,8 @@ function setup() {
   
   // Hide the video element, and just show the canvas
   document.getElementById("poseImg").src = imgArray[poseCounter].src;
-  document.getElementById("next_asana").textContent = posesArray[poseCounter+1] + " >> "; 
-  document.getElementById("english").textContent = '"' + english[poseCounter] +  '"'; 
+  document.getElementById("next_asana").textContent = posesArray[poseCounter+1]; 
+  document.getElementById("english").textContent = english[poseCounter]; 
 
   
   let options = {
@@ -132,9 +132,12 @@ function gotResult(error, results) {
 
 if (results)
 {
-  if (results[0].confidence > 0.70) {
+
+  
+  if (results[0].confidence > 0.62) {
     console.log("Confidence");
-    if (results[0].label == targetLabel.toString()){
+     if (targetLabel == 6)
+     {
       console.log(targetLabel);
       iterationCounter = iterationCounter + 1;
 
@@ -151,7 +154,30 @@ if (results)
           document.getElementById("time").textContent = "00:0" + timeLeft;
         }else{
         document.getElementById("time").textContent = "00:" + timeLeft;}
-        setTimeout(classifyPose, 1000);}}
+        setTimeout(classifyPose, 1000);}
+     }
+
+     else if (results[0].label == targetLabel.toString())
+     {
+      console.log(targetLabel);
+      iterationCounter = iterationCounter + 1;
+
+      console.log(iterationCounter)
+      
+      if (iterationCounter == timeLimit) {
+        console.log("30!")
+        iterationCounter = 0;
+        nextPose();}
+      else{
+        console.log("doin this")
+        timeLeft = timeLeft - 1;
+        if (timeLeft < 10){
+          document.getElementById("time").textContent = "00:0" + timeLeft;
+        }else{
+        document.getElementById("time").textContent = "00:" + timeLeft;}
+        setTimeout(classifyPose, 1000);}
+      
+      }
     else{
       errorCounter = errorCounter + 1;
       console.log("error");
@@ -200,7 +226,7 @@ function nextPose(){
     document.getElementById("poseImg").src = imgArray[poseCounter].src;
     if (poseCounter < 5)
     {
-      document.getElementById("next_asana").textContent = posesArray[poseCounter+1] + " >> "; 
+      document.getElementById("next_asana").textContent = posesArray[poseCounter+1]; 
     }
     else
     {

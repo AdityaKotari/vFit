@@ -11,16 +11,154 @@
 
 <body>
     <%- include('./partials/navbar'); %>
+      
 
-        <form>
-            <textarea id="id-supply"></textarea>
-            <button type="button" onclick="do_call()">submit</button>
-        </form>
+     <div class="ui container">
+            <div class="ui grid">
 
-        <p>Generated Peer ID is: </p>
-        <p id="demo"></p>
-        <video id="sendvidshere"></video>
+                  
+                       <div class="row">
+                        <div class="ui middle center aligned one column grid">
+                           <div class="sixteen wide column">
+                            <div class="ui ordered horizontal list">
+                                <div class="item" id="item0" >
+                                  <img class="ui avatar image"  src="/public/images/mountain_pose.jpg">
+                                  <div class="content">
+                                    <div class="header">Mountain</div>
+                                  
+                                  </div>
+                                </div>
+                                <div class="item" id="item1" >
+                                  <img class="ui avatar image" src="/public/images/tree_pose.jpg">
+                                  <div class="content">
+                                    <div class="header">Tree</div>
+                                 
+                                  </div>
+                                </div>
+                                <div class="item" id="item2" >
+                                  <img class="ui avatar image" src="/public/images/downward_dog.jpg">
+                                  <div class="content">
+                                    <div class="header">Downward Dog</div>
+                                   
+                                  </div>
+                                </div>
 
+                                <div class="item" id="item3" >
+                                  <img class="ui avatar image" src="/public/images/warrior_1.jpg">
+                                  <div class="content">
+                                    <div class="header">Warrior I</div>
+                                  
+                                  </div>
+                                </div>
+
+                                <div class="item" id="item4" >
+                                    <img class="ui avatar image" src="/public/images/warrior_2.jpg">
+                                    <div class="content">
+                                      <div class="header">Warrior II</div>
+                                    
+                                    </div>
+                                  </div>
+
+                                  <div class="item" id="item5" >
+                                    <img class="ui avatar image" src="/public/images/chair.jpg">
+                                    <div class="content">
+                                      <div class="header">Chair</div>
+                                    
+                                    </div>
+                                  </div>
+
+                                  
+
+
+
+
+                              </div>
+                           </div>
+                
+                        </div>
+                       </div>
+                  
+                  
+
+                     <div class="two column row">
+                         <div class="column">
+                            <form>
+                                <textarea id="id-supply"></textarea>
+                                <button type="button" onclick="do_call()">submit</button>
+                            </form>
+                    
+                            <p>Generated Peer ID is: </p>
+                            <p id="demo"></p>
+                            <video id="sendvidshere"></video>
+                            <div style="min-height: 200px;">
+                                 Video
+                            </div>
+                         </div>
+
+                         <div class="column">
+
+
+
+                        </div>
+                       
+
+
+
+                     </div>
+
+<div class="four column row">
+
+    <div class="column  center aligned">
+
+        <div class="ui card">
+            <div class="image">
+              <img src="/images/mountain_pose.jpg" id="poseImg">
+            </div>
+            <div class="content">
+              <a class="header" id="english" >English name</a>
+              
+              <div class="description" >
+              ALSO KNOWN AS
+              </div>
+            </div>
+            <div class="extra content">
+              <a>
+                <i class="user icon"></i>
+              Health benefits
+              </a>
+            </div>
+          </div>
+        <!-- <div class="ui medium image">
+            <img id="poseImg" style=""></img>
+        </div> -->
+    </div>
+    <div class="column">
+       
+            
+    </div>
+   
+    <div class="eight wide column center aligned">
+        <h1 id="poseName">Utkatasana</h1>
+       
+        
+        <div class="ui statistic">
+            <div class="value" id="time">
+             00:30
+            </div>
+            <div class="label" id="time2">
+             seconds to go
+            </div>
+          </div>
+    </div>
+
+
+</div>
+
+
+                     <div class=" row">
+
+
+                        
         <div class="ui middle center aligned three column grid">
             <div class="one wide column">
                 <button class="ui circular huge icon button black" id="mutebutton" onclick="mutebutton()">
@@ -28,7 +166,7 @@
                 </button>
             </div>
             <div class="two wide column">
-                <button class="ui labeled red large icon button" onclick="endcall()0">
+                <button class="ui labeled red large icon button" onclick="endcall()">
                     <i class="stop icon"></i>
                     End call
                 </button>
@@ -40,6 +178,29 @@
             </div>
 
         </div>
+                             <!-- <div class="column">
+                                <button class="ui circular huge icon button black" id="mutebutton" onclick="mutebutton()">
+                                    <i class="microphone icon"></i>
+                                </button>
+                             </div>
+                             <div class="column">
+                                <button class="ui labeled red large icon button" onclick="endcall()0">
+                                    <i class="stop icon"></i>
+                                    End call
+                                </button>
+                             </div>
+                             <div class="column">
+                                <button class="ui circular huge icon button black" id="vidbutton" onclick="vidbutton()">
+                                    <i class="video icon"></i>
+                                </button>
+                             </div> -->
+                    </div>
+
+
+            </div>
+     </div>
+       
+
 
 
 
@@ -140,6 +301,10 @@
                     }).catch(() => { });
             };
         </script>
+
+<script src = "/public/js/friends.js"></script>
+
+
 
 
 
