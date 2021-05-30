@@ -13,7 +13,7 @@
   <body>
     <%- include('./partials/navbar'); %>
     <div class="ui center aligned padded grid homebuttongrid">
-      <div class="four wide column">
+      <div class="six wide column">
         <button
           onclick="window.location.href='/soloplay'"
           class="large ui button massive circular homebuttons"
@@ -21,7 +21,7 @@
           Play solo
         </button>
       </div>
-      <div class="five wide column">
+      <div class="six wide column">
         <button
           onclick="window.location.href='/friendplay'"
           class="large ui button massive circular homebuttons"
@@ -29,15 +29,7 @@
           Play with a friend
         </button>
       </div>
-      <div class="four wide column">
-        <button
-          onclick="window.location.href='/randomplay'"
-          class="large ui button massive circular homebuttons"
-        >
-          Match with a random
-        </button>
-      </div>
-      <div class="three wide grey column">
+      <div class="four wide grey column">
         <h1 class="headers ui header">Friends</h1>
         <div class="ui divided very relaxed huge list" id="friendlist"></div>
       </div>

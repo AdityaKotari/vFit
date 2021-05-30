@@ -33,7 +33,7 @@ const requireLogin = (req, res, next) => {
                 WHERE user_id = ${_id}`,
             function (err, result) {
                 console.log(result);
-                if(result.length)
+                if(result&&result.length)
                     next()
             }
         );
