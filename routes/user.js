@@ -30,7 +30,7 @@ router.post("/signup", (req, res) => {
                 return res.json(
                     {token: jwt.sign(
                         { user_id: result.insertId },
-                        process.env.JWT_SECRET,
+                        ""+process.env.jwt_secret,
                         {
                             expiresIn: jwt_expiry_time,
                         }
@@ -51,12 +51,13 @@ router.post("/login", (req, res) => {
         `SELECT user_id, password FROM user WHERE username = '${username}'`,
         function (err, result) {
             //console.log(result);
-            if (err) throw err
+            if (err) 
+                console.log(err) 
             if (result.length && result[0].password == password)
                 return res.json({
                     token: jwt.sign(
                         { user_id: result[0].user_id },
-                        process.env.JWT_SECRET,
+                        process.env.jwt_secret,
                         {
                             expiresIn: jwt_expiry_time,
                         }
@@ -79,7 +80,8 @@ router.get("/userData", requireLogin, (req, res) => {
                 WHERE user_id = ${payload.user_id}`,
         function (err, result) {
             console.log(result)
-            if (err) throw err
+            if (err)
+                console.log(err)
             if (result.length) return res.send(result[0])
         }
     )
@@ -108,7 +110,8 @@ router.get("/friends", requireLogin, (req, res) => {
 
         function (err, result) {
             console.log(result)
-            if (err) throw err
+            if (err) 
+                console.log(err)
             if (result.length) results.friends.push(...result)
             //incoming
             con.query(
@@ -119,7 +122,8 @@ router.get("/friends", requireLogin, (req, res) => {
                     WHERE friendship.user_id2 = ${payload.user_id} AND friendship.status = 0`,
                 function (err, result) {
                     console.log(result)
-                    if (err) throw err
+                    if (err)
+                        console.log(err)
                     if (result.length) results.incoming.push(...result)
                     //outgoing
                     con.query(
@@ -131,7 +135,8 @@ router.get("/friends", requireLogin, (req, res) => {
 
                         function (err, result) {
                             console.log("outgoing: ", result)
-                            if (err) throw err
+                            if (err) 
+                                console.log(err)
                             if (result.length) {
                                 results.outgoing.push(...result)
                             }
@@ -153,7 +158,8 @@ router.post("/friends/add/:user_id", requireLogin, (req, res) => {
         `INSERT INTO friendship VALUES ( ${payload.user_id}, ${recipient}, 0)`,
         function (err, result) {
             console.log(result)
-            if (err) throw err
+            if (err) 
+                console.log(err)
         }
     )
     return res.send("Request sent")
@@ -168,7 +174,8 @@ router.put("/friends/accept/:user_id", requireLogin, (req, res) => {
         `UPDATE friendship SET status = 1 WHERE user_id2 = ${payload.user_id} AND user_id1 = ${to_be_accepted}`,
         function (err, result) {
             console.log(result)
-            if (err) throw err
+            if (err)
+                console.log(err)
         }
     )
     return res.send("Request accepted")

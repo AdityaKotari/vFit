@@ -21,7 +21,7 @@ const requireLogin = (req, res, next) => {
 
     const token = authorization.replace("Bearer ","")
     
-    jwt.verify(token, process.env.jwt_secret, (err, payload) => {
+    jwt.verify(token, ""+process.env.jwt_secret, (err, payload) => {
         if(err){
             console.log(err);
             return res.status(401).json({error:"You must be logged in to access this"})
@@ -33,7 +33,7 @@ const requireLogin = (req, res, next) => {
                 WHERE user_id = ${_id}`,
             function (err, result) {
                 console.log(result);
-                if(result.length)
+                if(result&&result.length)
                     next()
             }
         );
