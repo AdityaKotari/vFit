@@ -209,7 +209,7 @@ function nextPose(){
   if (poseCounter >= 5) {
     console.log("Well done, you have learnt all poses!");
     document.getElementById("time").textContent = "Well done!";
-    document.getElementById("time2").textContent = "You have learnt all poses.";
+    document.getElementById("time2").textContent = "You have learnt all poses!";
   
   }else{
     console.log("Well done, you all poses!");

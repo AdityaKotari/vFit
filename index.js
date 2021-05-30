@@ -57,6 +57,7 @@ io.on("connection", (socket) => {
     socket.on("public_message", public_message => {
         io.emit("public_message", socket.id.substr(0,2)+" said "+public_message)
     })
+
     socket.on("join_room", (room_code) => {
         console.log("user joined room "+room_code)
         socket.join(room_code);
