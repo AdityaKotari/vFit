@@ -28,6 +28,11 @@
               fields: {
                 title: "username",
               },
+              onSelect: function(result, response) {
+                  console.log(result);
+                  window.location.href = `/profile/${result.user_id}`;
+                  return true;
+              }
             });
           </script>
         </div>
