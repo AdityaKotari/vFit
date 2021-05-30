@@ -1,255 +1,271 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <%- include('./partials/head'); %>
+  <head>
+    <%- include('./partials/head'); %>
     <!-- <style>
       body {
         overflow-y: hidden;
       }
     </style> -->
     <link rel="stylesheet" href="/css/chat.css" type="text/css" />
-</head>
+  </head>
 
-<body>
+  <body>
+    <script src="https://cdn.socket.io/socket.io-3.0.0.js"></script>
+    <script>
+      //   var chat = document.getElementById("chat");
+      //   chat.scrollTop = chat.scrollHeight - chat.clientHeight;
+      var people = { friends: [], incoming: [], outgoing: [] };
+      var histories = [];
 
-  <script src="https://cdn.socket.io/socket.io-3.0.0.js"></script>
-  <script>
-    //   var chat = document.getElementById("chat");
-    //   chat.scrollTop = chat.scrollHeight - chat.clientHeight;
-    var people = { friends: [], incoming: [], outgoing: [] };
-    var histories = [];
+      let user_to_redirect = "1";
+      const socket = io();
+      let room = "";
+      const user = JSON.parse(localStorage.getItem("user"));
 
-    let user_to_redirect = "1"
-    const socket = io();
-    let room = "";
-    const user = JSON.parse(localStorage.getItem("user"))
+      socket.on("new_message", (message) => {
+        addNewMessage(message);
+        console.log(message);
+      });
 
-    socket.on("new_message", (message) => {
-      addNewMessage(message);
-      console.log(message)
-    })
+      function addNewMessage(message) {
+        if (message.content) {
+          var chat_messages = document.getElementById("chat");
+          var text = document.createElement("div");
+          text.className =
+            message.sender === user.username ? "message self" : "message other";
+          var content = document.createTextNode(message.content);
+          text.appendChild(content);
+          chat_messages.appendChild(text);
 
-    function addNewMessage(message) {
-      var chat_messages = document.getElementById("chat");
-      var text = document.createElement("div");
-      text.className =
-        message.sender === user.username
-          ? "message self"
-          : "message other";
-      var content = document.createTextNode(message.content);
-      text.appendChild(content);
-      chat_messages.appendChild(text);
+          var date = new Date().toISOString();
+          date_mysql = date.slice(0, 19).replace("T", " ");
+          console.log(date_mysql);
+          if (
+            parseInt(localStorage.getItem("user_id")) ==
+            parseInt(message.user_id)
+          ) {
+            fetch(`/api/user/chat/${user_to_redirect}`, {
+              method: "POST",
+              headers: {
+                "Content-type": "application/json; charset=UTF-8",
+                Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+              },
+              body: JSON.stringify({
+                content: message.content,
+                timestamp: date_mysql,
+              }),
+            });
+          }
+          for (h in histories) {
+            console.log(h);
+            if (user_to_redirect == histories[h].user_id) {
+              histories[h].messages.push({
+                message_id: 0,
+                sender_id: message.user_id,
+                recipient_id: user_to_redirect == message.user_id? parseInt(localStorage.getItem("user_id")): user_to_redirect,
+                content: message.content,
+                timestamp: date,
+              });
+              break;
+            }
+          }
+        }
+      }
 
-      var date = new Date().toISOString();
-      date = date.slice(0, 19).replace('T', ' ');
-      console.log(date);
-      fetch(`/api/user/chat/${user_to_redirect}`, {
-        method: "POST",
+      function send_new_message(message) {
+        socket.emit("sending_new_message", room, {
+          content: message,
+          sender: user.username,
+          user_id: parseInt(localStorage.getItem("user_id"))
+        });
+      }
+
+      function openChat(user_id) {
+        var chat = document.getElementsByClassName("center-chat")[0];
+        var chat_messages = document.getElementById("chat");
+        chat_messages.innerHTML = "";
+        if (chat.style.display == "block" && chat.id == user_id) {
+          chat.style.display = "none";
+          return;
+        }
+
+        //find the person details from the id
+        var person = {};
+        for (var key of Object.keys(people)) {
+          people[`${key}`].every(function (p, index) {
+            if (p.user_id == user_id) {
+              person = p;
+              return false;
+            } else return true;
+          });
+        }
+        //get the messages
+        var messages = [];
+        var cached = false;
+        console.log(histories);
+        for (h in histories) {
+          console.log(h);
+          if (user_id == histories[h].user_id) {
+            messages = histories[h].messages;
+            cached = true;
+            showChat();
+            break;
+          }
+        }
+        if (!cached) {
+          fetch(`/api/user/chat/${user_id}`, {
+            method: "GET",
+            headers: {
+              "Content-type": "application/json; charset=UTF-8",
+              Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+            },
+          })
+            .then((response) => response.json())
+            .then((json) => {
+              console.log(json);
+              messages = json;
+              histories.push({ user_id: user_id, messages: messages });
+              showChat();
+            });
+        }
+        //open the chat
+        function showChat() {
+          console.log(messages);
+          console.log(chat);
+          document.getElementById("chat-name").textContent = person.username;
+
+          //socket
+          names = [person.username, user.username];
+          names.sort();
+
+          console.log(names);
+          room = names[0] + "-with-" + names[1];
+          socket.emit("join_room", String(room));
+          //sokend
+          //sending new messages
+          chat_submit_button = document.getElementById("chat_submit_button");
+
+          chat_submit_button.addEventListener("keyup", function (event) {
+            if (event.keyCode === 13) {
+              //13 is the enter key
+              event.preventDefault();
+              let messageContent = chat_submit_button.value;
+              chat_submit_button.value = "";
+              //console.log(messageContent);
+              send_new_message(messageContent);
+            }
+          });
+
+          document.getElementById("chat-location").textContent =
+            person.city_name;
+
+          messages.sort(function (x, y) {
+            return x.timestamp - y.timestamp;
+          });
+
+          for (message in messages) {
+            var text = document.createElement("div");
+            text.className =
+              messages[message].sender_id == user_id
+                ? "message other"
+                : "message self";
+            var content = document.createTextNode(messages[message].content);
+            text.appendChild(content);
+            chat_messages.appendChild(text);
+          }
+          chat.style.display = "block";
+          chat.id = user_id;
+          user_to_redirect = user_id;
+        }
+      }
+      fetch("/api/user/friends", {
+        method: "GET",
         headers: {
           "Content-type": "application/json; charset=UTF-8",
           Authorization: `Bearer ${localStorage.getItem("jwt")}`,
         },
-        body: JSON.stringify({
-          content: message.content,
-          timestamp: date
-        })
       })
-
-    }
-
-    function send_new_message(message) {
-      socket.emit("sending_new_message", room, { content: message, sender: user.username });
-    }
-
-
-
-    function openChat(user_id) {
-
-      var chat = document.getElementsByClassName("center-chat")[0];
-      var chat_messages = document.getElementById("chat");
-      chat_messages.innerHTML = '';
-      if (chat.style.display == "block" && chat.id == user_id) {
-        chat.style.display = "none";
-        return;
-      }
-
-      //find the person details from the id
-      var person = {};
-      for (var key of Object.keys(people)) {
-        people[`${key}`].every(function (p, index) {
-          if (p.user_id == user_id) {
-            person = p;
-            return false;
-          } else return true;
+        .then((response) => response.json())
+        .then((json) => {
+          people = json;
+          renderFriends();
+        });
+      //get friends list from fetch
+      function renderFriends() {
+        var friendlist = document.getElementById("friendlist");
+        people.friends.forEach((element) => {
+          var item = document.createElement("div");
+          item.setAttribute("class", "item");
+          //this only works if everything is in the same line
+          item.innerHTML =
+            "<button class='ui large button' style='width: 90%' onclick='openChat(" +
+            element.user_id +
+            ")'><i class='large user circle icon'></i>" +
+            element.username +
+            "</button> ";
+          friendlist.appendChild(item);
+        });
+        var incominglist = document.getElementById("incominglist");
+        people.incoming.forEach((element) => {
+          var item = document.createElement("div");
+          item.setAttribute("class", "item");
+          //this only works if everything is in the same line
+          item.innerHTML =
+            "<button class='ui large button' style='width: 90%' onclick='openChat(" +
+            element.user_id +
+            ")'><i class='large user circle icon'></i>" +
+            element.username +
+            "</button> ";
+          incominglist.appendChild(item);
+        });
+        var outgoinglist = document.getElementById("outgoinglist");
+        people.outgoing.forEach((element) => {
+          var item = document.createElement("div");
+          item.setAttribute("class", "item");
+          //this only works if everything is in the same line
+          item.innerHTML =
+            "<button class='ui large button' style='width: 90%' onclick='openChat(" +
+            element.user_id +
+            ")'><i class='large user circle icon'></i>" +
+            element.username +
+            "</button> ";
+          outgoinglist.appendChild(item);
         });
       }
-      //get the messages
-      var messages = [];
-      var cached = false;
-      console.log(histories);
-      for (h in histories) {
-        console.log(h);
-        if (user_id == histories[h].user_id) {
-          messages = histories[h].messages;
-          cached = true;
-          showChat();
-          break;
-        }
-      }
-      if (!cached) {
-        fetch(`/api/user/chat/${user_id}`, {
-          method: "GET",
-          headers: {
-            "Content-type": "application/json; charset=UTF-8",
-            Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-          },
-        })
-          .then((response) => response.json())
-          .then((json) => {
-            console.log(json);
-            messages = json;
-            histories.push({ user_id: user_id, messages: messages });
-            showChat();
-          });
-      }
-      //open the chat
-      function showChat() {
+    </script>
 
-
-        console.log(messages);
-        console.log(chat);
-        document.getElementById("chat-name").textContent = person.username;
-
-        //socket
-        names = [person.username, user.username]
-        names.sort();
-
-        console.log(names)
-        room = names[0] + "-with-" + names[1]
-        socket.emit("join_room", "" + room);
-        //sokend
-        //sending new messages
-        chat_submit_button = document.getElementById("chat_submit_button")
-
-        chat_submit_button.addEventListener("keyup", function (event) {
-          if (event.keyCode === 13) {
-            //13 is the enter key
-            event.preventDefault();
-            let messageContent = chat_submit_button.value;
-            chat_submit_button.value = "";
-            //console.log(messageContent);
-            send_new_message(messageContent);
-
-          }
-        });
-
-        document.getElementById("chat-location").textContent =
-          person.city_name;
-
-        messages.sort(function (x, y) {
-          return x.timestamp - y.timestamp;
-        });
-
-        for (message in messages) {
-          var text = document.createElement("div");
-          text.className =
-            messages[message].sender_id == user_id
-              ? "message other"
-              : "message self";
-          var content = document.createTextNode(messages[message].content);
-          text.appendChild(content);
-          chat_messages.appendChild(text);
-        }
-        chat.style.display = "block";
-        chat.id = user_id;
-        user_to_redirect = user_id;
-
-      }
-    }
-    fetch("/api/user/friends", {
-      method: "GET",
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((json) => {
-        people = json;
-        renderFriends();
-      });
-    //get friends list from fetch
-    function renderFriends() {
-      var friendlist = document.getElementById("friendlist");
-      people.friends.forEach((element) => {
-        var item = document.createElement("div");
-        item.setAttribute("class", "item");
-        //this only works if everything is in the same line
-        item.innerHTML =
-          "<button class='ui large button' style='width: 90%' onclick='openChat(" +
-          element.user_id +
-          ")'><i class='large user circle icon'></i>" +
-          element.username +
-          "</button> ";
-        friendlist.appendChild(item);
-      });
-      var incominglist = document.getElementById("incominglist");
-      people.incoming.forEach((element) => {
-        var item = document.createElement("div");
-        item.setAttribute("class", "item");
-        //this only works if everything is in the same line
-        item.innerHTML =
-          "<button class='ui large button' style='width: 90%' onclick='openChat(" +
-          element.user_id +
-          ")'><i class='large user circle icon'></i>" +
-          element.username +
-          "</button> ";
-        incominglist.appendChild(item);
-      });
-      var outgoinglist = document.getElementById("outgoinglist");
-      people.outgoing.forEach((element) => {
-        var item = document.createElement("div");
-        item.setAttribute("class", "item");
-        //this only works if everything is in the same line
-        item.innerHTML =
-          "<button class='ui large button' style='width: 90%' onclick='openChat(" +
-          element.user_id +
-          ")'><i class='large user circle icon'></i>" +
-          element.username +
-          "</button> ";
-        outgoinglist.appendChild(item);
-      });
-    }
-
-
-
-
-  </script>
-
-
-
-
-  <%- include('./partials/navbar'); %>
+    <%- include('./partials/navbar'); %>
     <div class="ui center aligned padded grid homebuttongrid">
       <div class="one wide column"></div>
       <div class="three wide column">
-        <button onclick="window.location.href='/soloplay'" class="large ui button massive circular homebuttons">
+        <button
+          onclick="window.location.href='/soloplay'"
+          class="large ui button massive circular homebuttons"
+        >
           Play solo
         </button>
       </div>
       <div class="one wide column"></div>
 
       <div class="three wide column">
-        <button onclick="window.location.href='/room_details'" class="large ui button massive circular homebuttons">
+        <button
+          onclick="window.location.href='/room_details'"
+          class="large ui button massive circular homebuttons"
+        >
           Play with a friend
         </button>
       </div>
       <div class="four wide column"></div>
       <div class="four wide grey column">
-        <div class="ui search large" style="margin-left: 5%;">
+        <div class="ui search large" style="margin-left: 5%">
           <div class="ui icon input">
-            <input class="prompt" type="text" placeholder="Search users..." id="username" />
+            <input
+              class="prompt"
+              type="text"
+              placeholder="Search users..."
+              id="username"
+            />
             <i class="search icon"></i>
           </div>
           <script>
@@ -270,16 +286,28 @@
                 console.log(result);
                 window.location.href = `/profile/${result.user_id}`;
                 return true;
-              }
+              },
             });
           </script>
         </div>
-        <h1 class="headers ui header white ">Friends</h1>
-        <div class="ui very relaxed huge list" style="text-align: center;" id="friendlist"></div>
+        <h1 class="headers ui header white">Friends</h1>
+        <div
+          class="ui very relaxed huge list"
+          style="text-align: center"
+          id="friendlist"
+        ></div>
         <h1 class="headers ui header">Incoming</h1>
-        <div class="ui very relaxed huge list" style="text-align: center;" id="incominglist"></div>
+        <div
+          class="ui very relaxed huge list"
+          style="text-align: center"
+          id="incominglist"
+        ></div>
         <h1 class="headers ui header">Outgoing</h1>
-        <div class="ui very relaxed huge list" style="text-align: center;" id="outgoinglist"></div>
+        <div
+          class="ui very relaxed huge list"
+          style="text-align: center"
+          id="outgoinglist"
+        ></div>
       </div>
     </div>
 
@@ -308,8 +336,12 @@
         </div> -->
         </div>
         <div class="input">
-          <i class="fas fa-camera"></i><i class="far fa-laugh-beam"></i><input placeholder="Type your message here!"
-            type="text" id="chat_submit_button" /><i class="fas fa-microphone"></i>
+          <i class="fas fa-camera"></i><i class="far fa-laugh-beam"></i
+          ><input
+            placeholder="Type your message here!"
+            type="text"
+            id="chat_submit_button"
+          /><i class="fas fa-microphone"></i>
         </div>
       </div>
     </div>
@@ -317,9 +349,8 @@
     <script>
       function profilepage() {
         window.location.href = "/profile/" + user_to_redirect;
-        console.log("click")
+        console.log("click");
       }
     </script>
-</body>
-
+  </body>
 </html>

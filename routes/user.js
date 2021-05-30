@@ -56,6 +56,7 @@ router.post("/login", (req, res) => {
     if (err) throw err;
     if (result.length && result[0].password == password)
       return res.json({
+        user_id: result[0].user_id,
         token: jwt.sign(
           { user_id: result[0].user_id },
           process.env.JWT_SECRET,

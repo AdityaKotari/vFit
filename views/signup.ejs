@@ -101,6 +101,7 @@
                         else {
                             //console.log(data)
                             localStorage.setItem("jwt", data.token)
+                            localStorage.setItem("user_id", data.user_id)
                             localStorage.setItem("user", JSON.stringify({ username: form[0].value }))
                             // console.log("jwt token", data.token)
                             // console.log("User data", data.user);
