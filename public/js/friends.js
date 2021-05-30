@@ -16,7 +16,7 @@ let english = ['Mountain', 'Tree', 'Downward Dog', 'Warrior I', 'Warrior II', 'C
 let posesArray = ['Tadasana', 'Vrikshasana', 'Adhoukha svanasana', 'Vidarbhasana I', 'Vidarbhasana II', 'Utkatasana'];
 function setup() {
   var canvas = createCanvas(640, 480);
-  canvas.position(50, 150)
+  canvas.position(10, 160)
 
   let constraints = {audio: true, video: true};
   console.log("Room ID from p5 is", ROOM_ID);
@@ -93,8 +93,8 @@ function gotStream(stream, id) {
   // This is just like a video/stream from createCapture(VIDEO)
   otherVideo = stream;
   //otherVideo.id and id are the same and unique identifiers
-  otherVideo.size(640, 480);
-  otherVideo.position(900, 150);
+ otherVideo.size(320, 240)
+  otherVideo.position(1100, 160);
 }
 
 function yogiLoaded()

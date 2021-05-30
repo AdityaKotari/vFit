@@ -20,7 +20,7 @@
 </head>
 
 <body>
-  <%- include('./partials/navbar'); %>
+  <!-- <%- include('./partials/navbar'); %> -->
 
 
     <div class="ui container" style="text-align: center;">
@@ -96,37 +96,19 @@
 
 
 
-        <div class="two column row">
-          <div class="column">
-            
-          </div>
-
-          <div class="column center aligned">
-
-            <form>
-              <textarea id="id-supply"></textarea>
-              <button type="button" onclick="do_call()">submit</button>
-            </form>
-
-            <p>Generated Peer ID is: </p>
-            <p id="demo"></p>
-            <video id="sendvidshere"></video>
-            <div style="min-height: 200px;">
-              Video
-            </div>
-
-          </div>
-
-
-
-
-        </div>
-
         <div class="four column row">
+          <div class="column">
+             <h2>You</h2>
+             <div style="min-height: 480px">
 
-          <div class="column  center aligned">
+             </div>
+          </div>
+          <div class="column"> 
 
-            <div class="ui card">
+          </div>
+
+          <div class="column center aligned centered">
+            <div class="ui card centered">
               <div class="image">
                 <img src="/images/mountain_pose.jpg" id="poseImg">
               </div>
@@ -144,17 +126,7 @@
                 </a>
               </div>
             </div>
-            <!-- <div class="ui medium image">
-            <img id="poseImg" style=""></img>
-        </div> -->
-          </div>
-          <div class="column">
-
-
-          </div>
-
-          <div class="eight wide column center aligned">
-            <h1 id="poseName">Utkatasana</h1>
+            <h1 id="poseName" >Utkatasana</h1>
 
 
             <div class="ui statistic">
@@ -165,6 +137,67 @@
                 seconds to go
               </div>
             </div>
+
+            <div>
+
+            </div>
+
+            <!-- <form>
+              <textarea id="id-supply"></textarea>
+              <button type="button" onclick="do_call()">submit</button>
+            </form>
+
+            <p>Generated Peer ID is: </p>
+            <p id="demo"></p>
+            <video id="sendvidshere"></video>
+            <div style="min-height: 200px;">
+              Video
+            </div> -->
+
+          </div>
+
+          <div class="column right aligned">
+            <h2>Opponent</h2>
+            <div style="min-height: 480px">
+
+            </div>
+            
+           
+            <button class="ui labeled red large icon button" onclick="endcall()">
+              <i class="stop icon"></i>
+              End call
+            </button>
+
+          </div>
+
+
+
+
+        </div>
+
+        <div class="four column row">
+
+          <div class="column  center aligned">
+
+          
+            <!-- <div class="ui medium image">
+            <img id="poseImg" style=""></img>
+        </div> -->
+          </div>
+          <div class="column">
+
+
+          </div>
+          <div class="column">
+
+
+          </div>
+          <div class="column">
+            <div class="column">
+
+
+            </div>
+
           </div>
 
 
@@ -175,7 +208,7 @@
 
 
 
-          <div class="ui middle center aligned three column grid">
+          <!-- <div class="ui middle center aligned three column grid">
             <div class="one wide column">
               <button class="ui circular huge icon button black" id="mutebutton" onclick="mutebutton()">
                 <i class="microphone icon"></i>
@@ -194,7 +227,7 @@
               </button>
             </div>
 
-          </div>
+          </div> -->
           <!-- <div class="column">
                                 <button class="ui circular huge icon button black" id="mutebutton" onclick="mutebutton()">
                                     <i class="microphone icon"></i>
