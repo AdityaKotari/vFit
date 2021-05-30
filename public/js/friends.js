@@ -1,4 +1,4 @@
-let otherCanvas;
+let otherVideo;
 let video;
 let poseNet; 
 let pose; 
@@ -16,7 +16,7 @@ let english = ['Mountain', 'Tree', 'Downward Dog', 'Warrior I', 'Warrior II', 'C
 let posesArray = ['Tadasana', 'Vrikshasana', 'Adhoukha svanasana', 'Vidarbhasana I', 'Vidarbhasana II', 'Utkatasana'];
 function setup() {
   var canvas = createCanvas(640, 480);
-  canvas.position(10, 160)
+  canvas.position(10, 180)
 
   let constraints = {audio: true, video: true};
   console.log("Room ID from p5 is", ROOM_ID);
@@ -32,6 +32,7 @@ function setup() {
   errorCounter = 0; 
   timeLeft = timeLimit; 
   target = posesArray[poseCounter]; 
+  document.getElementById("poseCounter").textContent = poseCounter.toString();
   document.getElementById("item" + poseCounter.toString()).style.backgroundColor = "rgb(240, 239, 237)";
   console.log("item" + poseCounter.toString());
    document.getElementById("poseName").textContent = target;
@@ -94,7 +95,7 @@ function gotStream(stream, id) {
   otherVideo = stream;
   //otherVideo.id and id are the same and unique identifiers
  otherVideo.size(320, 240)
-  otherVideo.position(1100, 160);
+  otherVideo.position(1100, 180);
 }
 
 function yogiLoaded()
@@ -229,6 +230,7 @@ function nextPose(){
     // document.getElementById("finish").textContent = "Amazing!";
     // document.getElementById("welldone").textContent = "All poses done.";
     // document.getElementById("sparkles").style.display = 'block';
+    document.getElementById("poseCounter").textContent = "6";
     document.getElementById("time").textContent = "Well done!";
     document.getElementById("time2").textContent = "You have learnt all poses.";
   }else{
@@ -244,6 +246,7 @@ function nextPose(){
     targetLabel = poseCounter + 1;
     console.log("next pose target label" + targetLabel)
     target = posesArray[poseCounter];
+    document.getElementById("poseCounter").textContent = poseCounter.toString();
     document.getElementById("poseName").textContent = target;
     document.getElementById("english").textContent = '"' + english[poseCounter] +  '"'; 
     document.getElementById("poseImg").src = imgArray[poseCounter].src;
