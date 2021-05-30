@@ -54,6 +54,7 @@ io.on("connection", (socket) => {
     socket.on("public_message", public_message => {
         io.emit("public_message", socket.id.substr(0,2)+" said "+public_message)
     })
+
 })
 
 server.listen(port, () => {
