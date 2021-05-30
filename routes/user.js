@@ -263,4 +263,21 @@ router.get("/chat/:user_id", requireLogin, (req, res) => {
   );
 });
 
+router.post("/chat/:user_id", requireLogin, (req, res) => {
+    const { authorization } = req.headers;
+    const payload = jwt.decode(authorization.replace("Bearer ", ""));
+    const other = req.params["user_id"];
+    const { content, timestamp } = req.body;
+  
+    con.query(
+      `INSERT INTO message
+        VALUES (DEFAULT, ${payload.user_id}, ${other}, '${content}', '${timestamp}')`,
+      function (err, result) {
+        console.log(result);
+        if (err) throw err;
+        return res.send("Added to db");
+      }
+    );
+  });
+
 module.exports = router;
