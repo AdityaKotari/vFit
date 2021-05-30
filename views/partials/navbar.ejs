@@ -41,10 +41,10 @@
         <p id="profileicon">Sign up</p>
     </a>
     <script>
-        let user = localStorage.getItem("user")
-        if(user && user!==""){
-            user = JSON.parse(user);
-            document.getElementById("profileicon").innerText = user.username;
+        let userp = localStorage.getItem("user")
+        if(userp && userp!==""){
+            userp = JSON.parse(userp);
+            document.getElementById("profileicon").innerText = userp.username;
         }
         
     </script>
