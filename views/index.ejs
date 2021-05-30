@@ -1,31 +1,199 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <%- include('./partials/head'); %>
+
+<head>
+  <%- include('./partials/head'); %>
     <!-- <style>
       body {
         overflow-y: hidden;
       }
     </style> -->
     <link rel="stylesheet" href="/css/chat.css" type="text/css" />
-  </head>
+</head>
 
-  <body>
-    <%- include('./partials/navbar'); %>
+<body>
+
+  <script src="https://cdn.socket.io/socket.io-3.0.0.js"></script>
+  <script>
+    //   var chat = document.getElementById("chat");
+    //   chat.scrollTop = chat.scrollHeight - chat.clientHeight;
+    var people = { friends: [], incoming: [], outgoing: [] };
+    var histories = [];
+
+    const socket = io();
+    let room = "";
+    const user = JSON.parse(localStorage.getItem("user"))
+
+    socket.on("new_message", (message) => {
+      addNewMessage(message);
+      console.log(message)
+    })
+
+    function addNewMessage(message) {
+      var chat_messages = document.getElementById("chat");
+      var text = document.createElement("div");
+      text.className =
+        message.sender === user.username
+          ? "message self"
+          : "message other";
+      var content = document.createTextNode(message.content);
+      text.appendChild(content);
+      chat_messages.appendChild(text);
+    }
+
+    function send_new_message(message) {
+      socket.emit("sending_new_message", room, { content: message, sender: user.username });
+    }
+
+
+
+    function openChat(user_id) {
+      var chat = document.getElementsByClassName("center-chat")[0];
+      var chat_messages = document.getElementById("chat");
+      if (chat.style.display == "block" && chat.id == user_id) {
+        chat.style.display = "none";
+        chat_messages.innerHTML = '';
+        return;
+      }
+
+      //find the person details from the id
+      var person = {};
+      for (var key of Object.keys(people)) {
+        people[`${key}`].every(function (p, index) {
+          if (p.user_id == user_id) {
+            person = p;
+            return false;
+          } else return true;
+        });
+      }
+      //get the messages
+      var messages = [];
+      var cached = false;
+      console.log(histories);
+      for (h in histories) {
+        console.log(h);
+        if (user_id == histories[h].user_id) {
+          messages = histories[h].messages;
+          cached = true;
+          showChat();
+          break;
+        }
+      }
+      if (!cached) {
+        fetch(`/api/user/chat/${user_id}`, {
+          method: "GET",
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+            Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+          },
+        })
+          .then((response) => response.json())
+          .then((json) => {
+            console.log(json);
+            messages = json;
+            histories.push({ user_id: user_id, messages: messages });
+            showChat();
+          });
+      }
+      //open the chat
+      function showChat() {
+
+
+
+        console.log(chat);
+        document.getElementById("chat-name").textContent = person.username;
+
+        //socket
+        names = [person.username, user.username]
+        names.sort();
+
+        console.log(names)
+        room = names[0] + "-with-" + names[1]
+        socket.emit("join_room", "" + room);
+        //sokend
+        //sending new messages
+        chat_submit_button = document.getElementById("chat_submit_button")
+
+        chat_submit_button.addEventListener("keyup", function (event) {
+          if (event.keyCode === 13) {
+            //13 is the enter key
+            event.preventDefault();
+            let messageContent = chat_submit_button.value;
+            chat_submit_button.value = "";
+            //console.log(messageContent);
+            send_new_message(messageContent);
+
+          }
+        });
+
+        document.getElementById("chat-location").textContent =
+          person.city_name;
+
+        messages.sort(function (x, y) {
+          return x.timestamp - y.timestamp;
+        });
+
+        for (message in messages) {
+          var text = document.createElement("div");
+          text.className =
+            messages[message].sender_id == user_id
+              ? "message other"
+              : "message self";
+          var content = document.createTextNode(messages[message].content);
+          text.appendChild(content);
+          chat_messages.appendChild(text);
+        }
+        chat.style.display = "block";
+        chat.id = user_id;
+      }
+    }
+
+    fetch("/api/user/friends", {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        people = json;
+        renderFriends();
+      });
+    //get friends list from fetch
+    function renderFriends() {
+      var friendlist = document.getElementById("friendlist");
+      people.friends.forEach((element) => {
+        var item = document.createElement("div");
+        item.setAttribute("class", "item");
+        //this only works if everything is in the same line
+        item.innerHTML =
+          "<button class='ui button' onclick='openChat(" +
+          element.user_id +
+          ")'><i class='large user circle icon'></i>" +
+          element.username +
+          "</button> ";
+        friendlist.appendChild(item);
+      });
+    }
+
+
+
+
+  </script>
+
+
+
+
+  <%- include('./partials/navbar'); %>
     <div class="ui center aligned padded grid homebuttongrid">
       <div class="six wide column">
-        <button
-          onclick="window.location.href='/soloplay'"
-          class="large ui button massive circular homebuttons"
-        >
+        <button onclick="window.location.href='/soloplay'" class="large ui button massive circular homebuttons">
           Play solo
         </button>
       </div>
       <div class="six wide column">
-        <button
-          onclick="window.location.href='/room_details'"
-          class="large ui button massive circular homebuttons"
-        >
+        <button onclick="window.location.href='/room_details'" class="large ui button massive circular homebuttons">
           Play with a friend
         </button>
       </div>
@@ -34,143 +202,15 @@
         <div class="ui divided very relaxed huge list" id="friendlist"></div>
       </div>
     </div>
-    <script>
-      //   var chat = document.getElementById("chat");
-      //   chat.scrollTop = chat.scrollHeight - chat.clientHeight;
-      var people = { friends: [], incoming: [], outgoing: [] };
-      var histories = [];
-      function openChat(user_id) {
-        var chat = document.getElementsByClassName("center-chat")[0];
-        var chat_messages = document.getElementById("chat");
-        if (chat.style.display == "block" && chat.id == user_id) {
-          chat.style.display = "none";
-          chat_messages.innerHTML = '';
-          return;
-        }
-
-        //find the person details from the id
-        var person = {};
-        for (var key of Object.keys(people)) {
-          people[`${key}`].every(function (p, index) {
-            if (p.user_id == user_id) {
-              person = p;
-              return false;
-            } else return true;
-          });
-        }
-        // people.friends.forEach((p) => {
-        //   if (p.user_id == user_id) {
-        //     person = p;
-        //     found = true;
-        //   }
-        // });
-        // if (!found)
-        //   people.incoming.forEach((p) => {
-        //     if (p.user_id == user_id) {
-        //       person = p;
-        //       found = true;
-        //     }
-        //   });
-        // if (!found)
-        //   people.outgoing.forEach((p) => {
-        //     if (p.user_id == user_id) {
-        //       person = p;
-        //       found = true;
-        //     }
-        //   });
-
-        //get the messages
-        var messages = [];
-        var cached = false;
-        console.log(histories);
-        for (h in histories) {
-          console.log(h);
-          if (user_id == histories[h].user_id) {
-            messages = histories[h].messages;
-            cached = true;
-            showChat();
-            break;
-          }
-        }
-        if (!cached) {
-          fetch(`/api/user/chat/${user_id}`, {
-            method: "GET",
-            headers: {
-              "Content-type": "application/json; charset=UTF-8",
-              Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-            },
-          })
-            .then((response) => response.json())
-            .then((json) => {
-              console.log(json);
-              messages = json;
-              histories.push({ user_id: user_id, messages: messages });
-              showChat();
-            });
-        }
-        //open the chat
-        function showChat() {
-          console.log(chat);
-          document.getElementById("chat-name").textContent = person.username;
-          document.getElementById("chat-location").textContent =
-            person.city_name;
-          messages.sort(function (x, y) {
-            return x.timestamp - y.timestamp;
-          });
-          for (message in messages) {
-            var text = document.createElement("div");
-            text.className =
-              messages[message].sender_id == user_id
-                ? "message other"
-                : "message self";
-            var content = document.createTextNode(messages[message].content);
-            text.appendChild(content);
-            chat_messages.appendChild(text);
-          }
-          chat.style.display = "block";
-          chat.id = user_id;
-        }
-      }
-
-      fetch("/api/user/friends", {
-        method: "GET",
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-          Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-        },
-      })
-        .then((response) => response.json())
-        .then((json) => {
-          people = json;
-          renderFriends();
-        });
-      //get friends list from fetch
-      function renderFriends() {
-        var friendlist = document.getElementById("friendlist");
-        people.friends.forEach((element) => {
-          var item = document.createElement("div");
-          item.setAttribute("class", "item");
-          //this only works if everything is in the same line
-          item.innerHTML =
-            "<button class='ui button' onclick='openChat(" +
-            element.user_id +
-            ")'><i class='large user circle icon'></i>" +
-            element.username +
-            "</button> ";
-          friendlist.appendChild(item);
-        });
-      }
-    </script>
-  </body>
-  <div class="center-chat" id="0">
-    <div class="chat">
-      <div class="contact bar">
-        <div class="pic stark"></div>
-        <div class="name" id="chat-name">Tony Stark</div>
-        <div class="location" id="chat-location">Today at 12:56</div>
-      </div>
-      <div class="messages" id="chat">
-        <!-- <div class="time">Today at 11:41</div>
+    <div class="center-chat" id="0">
+      <div class="chat">
+        <div class="contact bar">
+          <div class="pic stark"></div>
+          <div class="name" id="chat-name">Tony Stark</div>
+          <div class="location" id="chat-location">Today at 12:56</div>
+        </div>
+        <div class="messages" id="chat">
+          <!-- <div class="time">Today at 11:41</div>
         <div class="message self">Hey, man! What's up, Mr Stark? 👋</div>
         <div class="message other">Kid, where'd you come from?</div>
         <div class="message self">Field trip! 🤣</div>
@@ -185,13 +225,13 @@
           <div class="typing typing-2"></div>
           <div class="typing typing-3"></div>
         </div> -->
-      </div>
-      <div class="input">
-        <i class="fas fa-camera"></i><i class="far fa-laugh-beam"></i
-        ><input placeholder="Type your message here!" type="text" /><i
-          class="fas fa-microphone"
-        ></i>
+        </div>
+        <div class="input">
+          <i class="fas fa-camera"></i><i class="far fa-laugh-beam"></i><input placeholder="Type your message here!"
+            type="text" id="chat_submit_button" /><i class="fas fa-microphone"></i>
+        </div>
       </div>
     </div>
-  </div>
+</body>
+
 </html>

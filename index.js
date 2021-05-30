@@ -67,6 +67,11 @@ io.on("connection", (socket) => {
         io.to(room_code).emit("webrtc_id", id);
         console.log("room "+room_code+ " id "+id )
     });
+
+    socket.on("sending_new_message", (room_code, message) => {
+        io.to(room_code).emit("new_message", message);
+        console.log("room "+room_code+ " message "+message )
+    });
     
     
 
