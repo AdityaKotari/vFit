@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <%- include('./partials/head'); %>
+
+</head>
+
+<body>
+    <%- include('./partials/navbar'); %>
+
+    <ul class="ui list">
+
+    </ul>
+    <input placeholder="message" class="ui input">
+    <button class="ui button">Send</button>
+
+
+    <script src="https://cdn.socket.io/socket.io-3.0.0.js"></script>
+    <script>
+        console.log("ws://"+window.location.hostname)
+        const socket = io();
+        socket.on("public_message", text => {
+            const el = document.createElement("li");
+            el.innerHTML = text;
+            document.querySelector("ul").appendChild(el);
+        })
+
+        document.querySelector("button").onclick = () => {
+            const text = document.querySelector("input").value;
+            socket.emit("public_message", text)
+        }
+    </script>
+
+</body>
+
+</html>
