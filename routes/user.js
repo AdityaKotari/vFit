@@ -274,7 +274,7 @@ router.get("/chat/:user_id", requireLogin, (req, res) => {
     con.escape(payload.user_id) +
     " AND sender_id = " +
     con.escape(other) +
-    ") ";
+    ") ORDER BY timestamp";
 
   con.query(sql, function (err, result) {
     console.log(result);

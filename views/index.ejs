@@ -160,14 +160,14 @@
           document.getElementById("chat-location").textContent =
             person.city_name;
 
-          messages.sort(function (x, y) {
-            // var tx = x.timestamp.split(/[- :]/);
-            // var dx = new Date(Date.UTC(tx[0], tx[1]-1, tx[2], tx[3], tx[4], tx[5]));
-            // var ty = y.timestamp.split(/[- :]/);
-            // var dy = new Date(Date.UTC(ty[0], ty[1]-1, ty[2], ty[3], ty[4], ty[5]));
-            //return dx - dy;
-            return x.timestamp - y.timestamp;
-          });
+          // messages.sort(function (x, y) {
+          //   // var tx = x.timestamp.split(/[- :]/);
+          //   // var dx = new Date(Date.UTC(tx[0], tx[1]-1, tx[2], tx[3], tx[4], tx[5]));
+          //   // var ty = y.timestamp.split(/[- :]/);
+          //   // var dy = new Date(Date.UTC(ty[0], ty[1]-1, ty[2], ty[3], ty[4], ty[5]));
+          //   //return dx - dy;
+          //   return x.timestamp - y.timestamp;
+          // });
 
           for (message in messages) {
             var text = document.createElement("div");
