@@ -44,6 +44,9 @@ app.get("/sockdemo", (req, res) => {
 app.get("/room_details", (req, res) => {
     res.render("room_details")
 })
+app.get("/profile/:user_id", (req, res) => {
+    res.render("profile", {user_id: req.params.user_id})
+})
 
 //socket.io
 var server=require('http').Server(app);

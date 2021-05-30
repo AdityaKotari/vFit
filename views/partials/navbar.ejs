@@ -4,6 +4,33 @@
         <h2>vFit</h2>
     </a>
     <a class="item" >Some slogan</a>
+        <div class="ui search" style="margin-left: 5%;">
+          <div class="ui icon input">
+            <input
+              class="prompt"
+              type="text"
+              placeholder="Search users..."
+              id="username"
+            />
+            <i class="search icon"></i>
+          </div>
+          <script>
+            $(".ui.search").search({
+              // change search endpoint to a custom endpoint by manipulating apiSettings
+              apiSettings: {
+                onResponse (response) {
+                  console.log(Object.values(response));
+  
+                  return { results: Object.values(response) };
+                },
+                url: "/api/user/search?username={query}",
+              },
+              fields: {
+                title: "username",
+              },
+            });
+          </script>
+        </div>
     <a class="item right"  href="/signup">
         <i class="large user circle icon"></i>
         <p id="profileicon">Sign up</p>
