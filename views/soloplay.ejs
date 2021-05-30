@@ -1,11 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/public/css/solo_game.css">
-    <title>Document</title>
     <%- include('./partials/head'); %>
 </head>
 <body>
@@ -13,14 +9,6 @@
     <div class="ui container">
         
         <div class="ui grid">
-           <div class="one column row">
-                   <div class="column">
-                    <div style="min-height: 30px;" >
-
-                    </div>
-                      
-                   </div>
-           </div>
 
             <div class="two column row">
                    <div class="column">
@@ -51,7 +39,8 @@
             </div>
             <div class="two column row">
                     <div class=" column center aligned">
-                        <div class="ui statistic">
+                        <div class="ui statistic" style="marg">
+                            <div class="ui header">Hold the position to advance to the next stage!</div>
                             <div class="value" id="time">
                              00:10
                             </div>
@@ -61,7 +50,7 @@
                           </div>
                     </div>
                  
-                    <div class="column right aligned ">
+                    <div class="column center aligned ">
                         <div class="ui steps">
                             <div class="step">
                                 <i class="angle double right icon"></i>
@@ -90,6 +79,6 @@
     
 </body>
 
-<script src = "/public/js/sketch.js"></script>
+<script src = "/public/js/sketchsolo.js"></script>
 
 </html>
