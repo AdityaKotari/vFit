@@ -41,10 +41,9 @@
       text.appendChild(content);
       chat_messages.appendChild(text);
 
-      var date = new Date().toISOString;
-      date = String(date)
-      date = date.slice(0, 19).replace('T', '');
-
+      var date = new Date().toISOString();
+      date = date.slice(0, 19).replace('T', ' ');
+      console.log(date);
       fetch(`/api/user/chat/${user_to_redirect}`, {
         method: "POST",
         headers: {
@@ -69,10 +68,9 @@
 
       var chat = document.getElementsByClassName("center-chat")[0];
       var chat_messages = document.getElementById("chat");
-
+      chat_messages.innerHTML = '';
       if (chat.style.display == "block" && chat.id == user_id) {
         chat.style.display = "none";
-        chat_messages.innerHTML = '';
         return;
       }
 
@@ -119,7 +117,7 @@
       function showChat() {
 
 
-
+        console.log(messages);
         console.log(chat);
         document.getElementById("chat-name").textContent = person.username;
 
