@@ -32,6 +32,10 @@
       <div class="four wide grey column">
         <h1 class="headers ui header">Friends</h1>
         <div class="ui divided very relaxed huge list" id="friendlist"></div>
+        <h1 class="headers ui header">Incoming</h1>
+        <div class="ui divided very relaxed huge list" id="incominglist"></div>
+        <h1 class="headers ui header">Outgoing</h1>
+        <div class="ui divided very relaxed huge list" id="outgoinglist"></div>
       </div>
     </div>
     <script>
@@ -58,27 +62,6 @@
             } else return true;
           });
         }
-        // people.friends.forEach((p) => {
-        //   if (p.user_id == user_id) {
-        //     person = p;
-        //     found = true;
-        //   }
-        // });
-        // if (!found)
-        //   people.incoming.forEach((p) => {
-        //     if (p.user_id == user_id) {
-        //       person = p;
-        //       found = true;
-        //     }
-        //   });
-        // if (!found)
-        //   people.outgoing.forEach((p) => {
-        //     if (p.user_id == user_id) {
-        //       person = p;
-        //       found = true;
-        //     }
-        //   });
-
         //get the messages
         var messages = [];
         var cached = false;
@@ -142,6 +125,7 @@
         .then((response) => response.json())
         .then((json) => {
           people = json;
+          console.log(people);
           renderFriends();
         });
       //get friends list from fetch
@@ -158,6 +142,32 @@
             element.username +
             "</button> ";
           friendlist.appendChild(item);
+        });
+        var incominglist = document.getElementById("incominglist");
+        people.incoming.forEach((element) => {
+          var item = document.createElement("div");
+          item.setAttribute("class", "item");
+          //this only works if everything is in the same line
+          item.innerHTML =
+            "<button class='ui button' onclick='openChat(" +
+            element.user_id +
+            ")'><i class='large user circle icon'></i>" +
+            element.username +
+            "</button> ";
+          incominglist.appendChild(item);
+        });
+        var outgoinglist = document.getElementById("outgoinglist");
+        people.outgoing.forEach((element) => {
+          var item = document.createElement("div");
+          item.setAttribute("class", "item");
+          //this only works if everything is in the same line
+          item.innerHTML =
+            "<button class='ui button' onclick='openChat(" +
+            element.user_id +
+            ")'><i class='large user circle icon'></i>" +
+            element.username +
+            "</button> ";
+          outgoinglist.appendChild(item);
         });
       }
     </script>
