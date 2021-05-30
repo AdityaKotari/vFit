@@ -2,6 +2,8 @@
 
 ## Team: [Pranav Balaji](https://github.com/greenfish8090), [Kevin Biju](https://github.com/heavycrystal), [Gaurav Bhattacharjee](https://github.com/guilefoylegaurav), and [Aditya Kotari](https://github.com/AdityaKotari)
 
+### Demonstration video: https://www.youtube.com/watch?v=E0EyNNqSheE
+
 In recent times, a new social paradigm has emerged due to COVID-19. People are unable to exit their homes for long periods of time, and as a result their physical fitness has been going down considerably. 
 Additionally, the lack of interaction with friends and family has been taking a mental and social toll on a lot of us as well.
 
