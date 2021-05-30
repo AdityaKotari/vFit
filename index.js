@@ -70,6 +70,10 @@ io.on("connection", (socket) => {
         io.to(room_code).emit("webrtc_id", id);
         console.log("room "+room_code+ " id "+id )
     });
+    socket.on("update_score", (username, pose_count, room_code) => {
+        io.to(room_code).emit("updated_score", username, pose_count, room_code);
+        console.log("score change at room "+room_code+ " id "+id )
+    });
 
     socket.on("sending_new_message", (room_code, message) => {
         io.to(room_code).emit("new_message", message);

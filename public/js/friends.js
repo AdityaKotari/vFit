@@ -5,15 +5,16 @@ let pose;
 let yogaNN; 
 var iterationCounter;
 let state = 'predict'; 
-let timeLimit = 30; 
+let timeLimit = 10; 
 var timeLeft; 
 let target; 
 let poseCounter; 
 let errorCounter; 
 var imgArray = new Array();
 var poseImage;
-let english = ['Mountain', 'Tree', 'Downward Dog', 'Warrior I', 'Warrior II', 'Chair'];
-let posesArray = ['Tadasana', 'Vrikshasana', 'Adhoukha svanasana', 'Vidarbhasana I', 'Vidarbhasana II', 'Utkatasana'];
+let p5l;
+let english = ['Mountain Pose', 'Tree Pose', 'Downward Dog', 'Warrior I', 'Warrior II', 'Chair Pose'];
+let posesArray = ['Tadasana', 'Vrikshasana', 'Adhmoukha svanasana', 'Vidarbhasana I', 'Vidarbhasana II', 'Utkatasana'];
 function setup() {
   var canvas = createCanvas(640, 480);
   canvas.position(10, 180)
@@ -21,7 +22,8 @@ function setup() {
   let constraints = {audio: true, video: true};
   console.log("Room ID from p5 is", ROOM_ID);
   video = createCapture(constraints,  function(stream) {
-	  let p5l = new p5LiveMedia(this, "CAPTURE", stream, ROOM_ID); 
+	   p5l = new p5LiveMedia(this, "CAPTURE", stream, ROOM_ID); 
+     p5l.on('data', gotData);
 	  p5l.on('stream', gotStream);
     });
     video.elt.muted = true;
@@ -87,7 +89,17 @@ function setup() {
   // p5l.on('stream', gotStream);
   
   
+
 }
+
+
+function gotData(data, id) {
+  // If it is JSON, parse it
+  let d = JSON.parse(data);
+  document.getElementById("poseCounterOther").textContent = d; 
+  console.log(d)
+}
+
 
 
 function gotStream(stream, id) {
@@ -155,13 +167,13 @@ function gotResult(error, results) {
   if (results)
   {
     if (results[0].confidence > 0.62 && otherVideo) {
-      console.log("Confidence");
+      //console.log("Confidence");
       if (targetLabel == 6)
        {
-        console.log(targetLabel);
+        // console.log(targetLabel);
         iterationCounter = iterationCounter + 1;
   
-        console.log(iterationCounter)
+        // console.log(iterationCounter)
         
         if (iterationCounter == timeLimit) {
           console.log("30!")
@@ -179,10 +191,10 @@ function gotResult(error, results) {
   
      
      else if (results[0].label == targetLabel.toString()){
-        console.log(targetLabel);
+        // console.log(targetLabel);
         iterationCounter = iterationCounter + 1;
   
-        console.log(iterationCounter)
+        // console.log(iterationCounter)
         
         if (iterationCounter == timeLimit) {
           console.log("30!")
@@ -225,6 +237,7 @@ function gotResult(error, results) {
 
 
 function nextPose(){
+  
   if (poseCounter >= 5) {
     console.log("Well done, you have learnt all poses!");
     // document.getElementById("finish").textContent = "Amazing!";
@@ -242,6 +255,10 @@ function nextPose(){
     iterationCounter = 0;
     document.getElementById("item" + poseCounter.toString()).style.backgroundColor = "white";
     poseCounter = poseCounter + 1;
+    if (p5l){
+      console.log("p5l is here");
+      p5l.send(JSON.stringify(poseCounter));
+   }
     document.getElementById("item" + poseCounter.toString()).style.backgroundColor = "rgb(240, 239, 237)";
     targetLabel = poseCounter + 1;
     console.log("next pose target label" + targetLabel)
