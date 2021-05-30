@@ -29,8 +29,8 @@ app.use(router)
 app.get("/", (req, res) => {
     res.render("index")
 })
-app.get("/friendplay", (req, res) => {
-    res.render("friendplay")
+app.get("/friendplay/:roomcode", (req, res) => {
+    res.render("friendplay", {room_code: req.params.roomcode})
 })
 app.get("/soloplay", (req, res) => {
     res.render("soloplay")
@@ -40,6 +40,9 @@ app.get("/signup", (req, res) => {
 })
 app.get("/sockdemo", (req, res) => {
     res.render("sockdemo")
+})
+app.get("/room_details", (req, res) => {
+    res.render("room_details")
 })
 
 //socket.io
@@ -55,7 +58,21 @@ io.on("connection", (socket) => {
         io.emit("public_message", socket.id.substr(0,2)+" said "+public_message)
     })
 
+    socket.on("join_room", (room_code) => {
+        console.log("user joined room "+room_code)
+        socket.join(room_code);
+        io.to(room_code).emit('share_id');
+    });
+    socket.on("share_id2", (room_code, id) => {
+        io.to(room_code).emit("webrtc_id", id);
+        console.log("room "+room_code+ " id "+id )
+    });
+    
+    
+
 })
+
+
 
 server.listen(port, () => {
     console.log(`vFit server listening at http://localhost:${port}`)
