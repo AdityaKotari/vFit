@@ -17,7 +17,14 @@ let posesArray = ['Tadasana', 'Vrikshasana', 'Adhoukha svanasana', 'Vidarbhasana
 function setup() {
   var canvas = createCanvas(640, 480);
   canvas.position(50, 150)
-  video = createCapture(VIDEO);
+
+  let constraints = {audio: true, video: true};
+  console.log("Room ID from p5 is", ROOM_ID);
+  video = createCapture(constraints,  function(stream) {
+	  let p5l = new p5LiveMedia(this, "CAPTURE", stream, ROOM_ID); 
+	  p5l.on('stream', gotStream);
+    });
+    video.elt.muted = true;
   video.size(width, height);
    targetLabel = 1; 
   iterationCounter = 0; 
@@ -74,19 +81,20 @@ function setup() {
   yogaNN.load(modelInfo, yogiLoaded);
 
   video.hide();
-  let p5l = new p5LiveMedia(this, "CANVAS", canvas, ROOM_ID);
-  console.log("Room ID from p5 is", ROOM_ID); 
-  p5l.on('stream', gotStream);
+  // let p5l = new p5LiveMedia(this, "CANVAS", canvas, ROOM_ID);
+  // console.log("Room ID from p5 is", ROOM_ID); 
+  // p5l.on('stream', gotStream);
   
   
 }
 
 
-function gotStream(stream) {
-  
-  otherCanvas = stream;
-  otherCanvas.position(500, 10); 
- 
+function gotStream(stream, id) {
+  // This is just like a video/stream from createCapture(VIDEO)
+  otherVideo = stream;
+  //otherVideo.id and id are the same and unique identifiers
+  otherVideo.size(640, 480);
+  otherVideo.position(900, 150);
 }
 
 function yogiLoaded()
