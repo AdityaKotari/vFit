@@ -9,7 +9,6 @@ const jwt_expiry_time = "3 days";
 
 //adds a new user to db, requires { username, password, email, city_id }
 router.post("/signup", (req, res) => {
-
   const { username, password, email, city_id } = req.body;
   if (!username || !password || !email || !city_id) {
     return res.status(422).json({ error: "Some arguments are missing" });
@@ -22,7 +21,6 @@ router.post("/signup", (req, res) => {
           return res
             .status(409)
             .json({ error: "Email or username already exists" });
-
         }
         console.log(err);
       } else {
@@ -64,7 +62,6 @@ router.post("/login", (req, res) => {
         });
       else return res.json({ error: "Wrong credentials" });
     }
-
   );
 });
 
@@ -82,6 +79,48 @@ router.get("/userData", requireLogin, (req, res) => {
       console.log(result);
       if (err) throw err;
       if (result.length) return res.send(result[0]);
+      else return res.send("No user found");
+    }
+  );
+});
+
+//gets user data
+router.get("/userData/:user_id", requireLogin, (req, res) => {
+  const user_id = req.params["user_id"];
+  const { authorization } = req.headers;
+  const payload = jwt.decode(authorization.replace("Bearer ", ""));
+
+  results = { connection: 0, details: {} };
+  con.query(
+    `SELECT username, email, city.city_name, city.city_id, score
+          FROM user
+          INNER JOIN city ON user.city_id = city.city_id
+          WHERE user_id = ${user_id}`,
+    function (err, result) {
+      console.log(result);
+      if (err) throw err;
+      if (result.length) results.details = result[0];
+      else return res.send("No user found");
+      con.query(
+        `SELECT *
+                FROM friendship
+                WHERE (user_id1 = ${user_id} AND user_id2 = ${payload.user_id})
+                OR (user_id2 = ${user_id} AND user_id1 = ${payload.user_id})`,
+        function (err, result) {
+          console.log(result);
+          if (err) throw err;
+          if (result.length) {
+            if (result[0].status == 1) {
+                results.connection = 1;
+            }
+            else if (result[0].user_id1 == user_id) {
+                results.connection = 2;
+            }
+            else results.connection = 3;
+          }
+          res.send(results);
+        }
+      );
     }
   );
 });
@@ -93,14 +132,11 @@ router.get("/search", (req, res) => {
   INNER JOIN city ON user.city_id = city.city_id
   WHERE username LIKE '%${username}%'`;
   console.log(req.body);
-  con.query(
-    sql,
-    function (err, result) {
-      console.log(result);
-      if (err) throw err;
-      return res.send(result);
-    }
-  );
+  con.query(sql, function (err, result) {
+    console.log(result);
+    if (err) throw err;
+    return res.send(result);
+  });
 });
 
 router.get("/friends", requireLogin, (req, res) => {
@@ -122,7 +158,6 @@ router.get("/friends", requireLogin, (req, res) => {
                 INNER JOIN user ON user.user_id = friendship.user_id1
                 INNER JOIN city ON user.city_id = city.city_id
                 WHERE friendship.user_id2 = ${payload.user_id} AND friendship.status = 1`,
-
 
     function (err, result) {
       console.log(result);
@@ -227,5 +262,22 @@ router.get("/chat/:user_id", requireLogin, (req, res) => {
     }
   );
 });
+
+router.post("/chat/:user_id", requireLogin, (req, res) => {
+    const { authorization } = req.headers;
+    const payload = jwt.decode(authorization.replace("Bearer ", ""));
+    const other = req.params["user_id"];
+    const { content, timestamp } = req.body;
+  
+    con.query(
+      `INSERT INTO message
+        VALUES (DEFAULT, ${payload.user_id}, ${other}, '${content}', '${timestamp}')`,
+      function (err, result) {
+        console.log(result);
+        if (err) throw err;
+        return res.send("Added to db");
+      }
+    );
+  });
 
 module.exports = router;
