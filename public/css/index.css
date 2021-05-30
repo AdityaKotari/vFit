@@ -8,7 +8,9 @@
     text-align: center !important;
 }
 .headers{
-    text-align: center;
+    text-align: center !important;
+    color: whitesmoke !important;
+    font-size: 30px !important;
 }
 .loginsegment{
     margin-left: 200px !important;

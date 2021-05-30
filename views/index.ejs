@@ -20,6 +20,7 @@
     var people = { friends: [], incoming: [], outgoing: [] };
     var histories = [];
 
+    let user_to_redirect = "1"
     const socket = io();
     let room = "";
     const user = JSON.parse(localStorage.getItem("user"))
@@ -39,6 +40,23 @@
       var content = document.createTextNode(message.content);
       text.appendChild(content);
       chat_messages.appendChild(text);
+
+      var date = new Date().toISOString;
+      date = String(date)
+      date = date.slice(0, 19).replace('T', '');
+
+      fetch(`/api/user/chat/${user_to_redirect}`, {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+          Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+        },
+        body: JSON.stringify({
+          content: message.content,
+          timestamp: date
+        })
+      })
+
     }
 
     function send_new_message(message) {
@@ -48,8 +66,10 @@
 
 
     function openChat(user_id) {
+
       var chat = document.getElementsByClassName("center-chat")[0];
       var chat_messages = document.getElementById("chat");
+
       if (chat.style.display == "block" && chat.id == user_id) {
         chat.style.display = "none";
         chat_messages.innerHTML = '';
@@ -145,9 +165,10 @@
         }
         chat.style.display = "block";
         chat.id = user_id;
+        user_to_redirect = user_id;
+
       }
     }
-
     fetch("/api/user/friends", {
       method: "GET",
       headers: {
@@ -168,7 +189,7 @@
         item.setAttribute("class", "item");
         //this only works if everything is in the same line
         item.innerHTML =
-          "<button class='ui button' onclick='openChat(" +
+          "<button class='ui large button' style='width: 90%' onclick='openChat(" +
           element.user_id +
           ")'><i class='large user circle icon'></i>" +
           element.username +
@@ -181,7 +202,7 @@
         item.setAttribute("class", "item");
         //this only works if everything is in the same line
         item.innerHTML =
-          "<button class='ui button' onclick='openChat(" +
+          "<button class='ui large button' style='width: 90%' onclick='openChat(" +
           element.user_id +
           ")'><i class='large user circle icon'></i>" +
           element.username +
@@ -194,7 +215,7 @@
         item.setAttribute("class", "item");
         //this only works if everything is in the same line
         item.innerHTML =
-          "<button class='ui button' onclick='openChat(" +
+          "<button class='ui large button' style='width: 90%' onclick='openChat(" +
           element.user_id +
           ")'><i class='large user circle icon'></i>" +
           element.username +
@@ -213,31 +234,62 @@
 
   <%- include('./partials/navbar'); %>
     <div class="ui center aligned padded grid homebuttongrid">
-      <div class="six wide column">
+      <div class="one wide column"></div>
+      <div class="three wide column">
         <button onclick="window.location.href='/soloplay'" class="large ui button massive circular homebuttons">
           Play solo
         </button>
       </div>
-      <div class="six wide column">
+      <div class="one wide column"></div>
+
+      <div class="three wide column">
         <button onclick="window.location.href='/room_details'" class="large ui button massive circular homebuttons">
           Play with a friend
         </button>
       </div>
+      <div class="four wide column"></div>
       <div class="four wide grey column">
-        <h1 class="headers ui header">Friends</h1>
-        <div class="ui divided very relaxed huge list" id="friendlist"></div>
+        <div class="ui search large" style="margin-left: 5%;">
+          <div class="ui icon input">
+            <input class="prompt" type="text" placeholder="Search users..." id="username" />
+            <i class="search icon"></i>
+          </div>
+          <script>
+            $(".ui.search").search({
+              // change search endpoint to a custom endpoint by manipulating apiSettings
+              apiSettings: {
+                onResponse(response) {
+                  console.log(Object.values(response));
+
+                  return { results: Object.values(response) };
+                },
+                url: "/api/user/search?username={query}",
+              },
+              fields: {
+                title: "username",
+              },
+              onSelect: function (result, response) {
+                console.log(result);
+                window.location.href = `/profile/${result.user_id}`;
+                return true;
+              }
+            });
+          </script>
+        </div>
+        <h1 class="headers ui header white ">Friends</h1>
+        <div class="ui very relaxed huge list" style="text-align: center;" id="friendlist"></div>
         <h1 class="headers ui header">Incoming</h1>
-        <div class="ui divided very relaxed huge list" id="incominglist"></div>
+        <div class="ui very relaxed huge list" style="text-align: center;" id="incominglist"></div>
         <h1 class="headers ui header">Outgoing</h1>
-        <div class="ui divided very relaxed huge list" id="outgoinglist"></div>
+        <div class="ui very relaxed huge list" style="text-align: center;" id="outgoinglist"></div>
       </div>
     </div>
 
     <div class="center-chat" id="0">
       <div class="chat">
-        <div class="contact bar">
+        <div class="contact bar" id="contact_bar" onclick="profilepage()">
           <div class="pic stark"></div>
-          <div class="name" id="chat-name">Tony Stark</div>
+          <a class="name" id="chat-name">Tony Stark</a>
           <div class="location" id="chat-location">Today at 12:56</div>
         </div>
         <div class="messages" id="chat">
@@ -263,6 +315,13 @@
         </div>
       </div>
     </div>
+
+    <script>
+      function profilepage() {
+        window.location.href = "/profile/" + user_to_redirect;
+        console.log("click")
+      }
+    </script>
 </body>
 
 </html>
