@@ -11,6 +11,10 @@ VFit is a socially-oriented fitness app. Users can register on vFit and find oth
 
 The app was written in EJS and Node.js and was deployed to Heroku. A MySQL instance hosted on AWS was used as the backing data store. The ML inference was done using Tensorflow.js and P5 and we adopted the PoseNet ML model for the same.
 
+The USP of the app is this exercising with friends feature, as users are able to engage in a dynamic exercise with a friend and also interact with someone face to face at the same time.
+
+### Screenshots:
+
 ![image (2)](https://user-images.githubusercontent.com/39759092/120115568-e91fc180-c1a1-11eb-9e7b-eba0cf9be264.png)
 ![image (3)](https://user-images.githubusercontent.com/39759092/120115569-eb821b80-c1a1-11eb-975b-90a7be53c2e9.png)
 ![image (1)](https://user-images.githubusercontent.com/39759092/120115574-ed4bdf00-c1a1-11eb-85f8-38b6582690d5.png)
