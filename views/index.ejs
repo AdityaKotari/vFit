@@ -175,6 +175,32 @@
           "</button> ";
         friendlist.appendChild(item);
       });
+      var incominglist = document.getElementById("incominglist");
+      people.incoming.forEach((element) => {
+        var item = document.createElement("div");
+        item.setAttribute("class", "item");
+        //this only works if everything is in the same line
+        item.innerHTML =
+          "<button class='ui button' onclick='openChat(" +
+          element.user_id +
+          ")'><i class='large user circle icon'></i>" +
+          element.username +
+          "</button> ";
+        incominglist.appendChild(item);
+      });
+      var outgoinglist = document.getElementById("outgoinglist");
+      people.outgoing.forEach((element) => {
+        var item = document.createElement("div");
+        item.setAttribute("class", "item");
+        //this only works if everything is in the same line
+        item.innerHTML =
+          "<button class='ui button' onclick='openChat(" +
+          element.user_id +
+          ")'><i class='large user circle icon'></i>" +
+          element.username +
+          "</button> ";
+        outgoinglist.appendChild(item);
+      });
     }
 
 
