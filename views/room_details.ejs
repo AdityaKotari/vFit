@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <%- include('./partials/head'); %>
+
+</head>
+
+<body>
+    <%- include('./partials/navbar'); %>
+
+        <div class="ui two column center aligned grid" style="margin-top: 200px;">
+            <div class="four wide column">
+                <h1>Enter in a room code your friend gave you:</h1>
+                <form class="ui form">
+
+                    <div class="field">
+                        <input type="text" name="last-name" placeholder="Room Code" id="new_room">
+                    </div>
+                    <div class="ui button" onclick="join_with_room_code()">Join room</div>
+                </form>
+
+            </div>
+            <div class="one wide column"><div class="ui vertical divider">
+                Or
+            </div></div>
+            <div class="four wide column">
+                <h1>Or join a new room:</h1>
+                <form class="ui form">
+
+                    <div class="field">
+                        <label>Room code:</label>
+                        <input type="text" name="last-name" placeholder="Room Code" class="ui field disabled" id="new_room_code">
+                    </div>
+                    <div class="ui button" onclick="join_new_room()">Submit</div>
+                </form>
+
+            </div>
+
+        </div>
+
+        <script>
+            function join_with_room_code(){
+                window.location.href = "/friendplay/"+document.getElementById("new_room").value
+            }
+            const new_room_code = Math.random().toString(36).substring(2,9);
+            document.getElementById("new_room_code").value = new_room_code;
+            function join_new_room(){
+                window.location.href = "/friendplay/"+new_room_code
+            }
+        </script>
+</body>
+
+</html>

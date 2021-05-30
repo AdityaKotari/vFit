@@ -2,144 +2,341 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <!-- ejs magic -->
-    <%- include('./partials/head'); %>
+  <meta charset="utf-8" />
+  <link rel="icon" href="favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- ejs magic -->
+  <%- include('./partials/head'); %>
 </head>
 
 <body>
-    <%- include('./partials/navbar'); %>
+  <%- include('./partials/navbar'); %>
 
-        <form>
-            <textarea id="id-supply"></textarea>
-            <button type="button" onclick="do_call()">submit</button>
-        </form>
 
-        <p>Generated Peer ID is: </p>
-        <p id="demo"></p>
-        <video id="sendvidshere"></video>
+    <div class="ui container" style="text-align: center;">
+      <span class="ui header">Room Code:</span>
+      <span id="room-code" class="ui header">
+        <%= room_code %>
+      </span>
+      <span class="ui header">(Share this room code with your friend)</span>
+      <div class="ui grid">
 
-        <div class="ui middle center aligned three column grid">
-            <div class="one wide column">
-                <button class="ui circular huge icon button black" id="mutebutton" onclick="mutebutton()">
-                    <i class="microphone icon"></i>
-                </button>
+
+        <div class="row">
+          <div class="ui middle center aligned one column grid">
+            <div class="sixteen wide column">
+              <div class="ui ordered horizontal list">
+                <div class="item" id="item0">
+                  <img class="ui avatar image" src="/public/images/mountain_pose.jpg">
+                  <div class="content">
+                    <div class="header">Mountain</div>
+
+                  </div>
+                </div>
+                <div class="item" id="item1">
+                  <img class="ui avatar image" src="/public/images/tree_pose.jpg">
+                  <div class="content">
+                    <div class="header">Tree</div>
+
+                  </div>
+                </div>
+                <div class="item" id="item2">
+                  <img class="ui avatar image" src="/public/images/downward_dog.jpg">
+                  <div class="content">
+                    <div class="header">Downward Dog</div>
+
+                  </div>
+                </div>
+
+                <div class="item" id="item3">
+                  <img class="ui avatar image" src="/public/images/warrior_1.jpg">
+                  <div class="content">
+                    <div class="header">Warrior I</div>
+
+                  </div>
+                </div>
+
+                <div class="item" id="item4">
+                  <img class="ui avatar image" src="/public/images/warrior_2.jpg">
+                  <div class="content">
+                    <div class="header">Warrior II</div>
+
+                  </div>
+                </div>
+
+                <div class="item" id="item5">
+                  <img class="ui avatar image" src="/public/images/chair.jpg">
+                  <div class="content">
+                    <div class="header">Chair</div>
+
+                  </div>
+                </div>
+
+
+
+
+
+
+              </div>
             </div>
-            <div class="two wide column">
-                <button class="ui labeled red large icon button" onclick="endcall()0">
-                    <i class="stop icon"></i>
-                    End call
-                </button>
-            </div>
-            <div class="one wide column">
-                <button class="ui circular huge icon button black" id="vidbutton" onclick="vidbutton()">
-                    <i class="video icon"></i>
-                </button>
-            </div>
 
+          </div>
         </div>
 
 
 
-        <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
-        <script>
+        <div class="two column row">
+          <div class="column">
+            <form>
+              <textarea id="id-supply"></textarea>
+              <button type="button" onclick="do_call()">submit</button>
+            </form>
 
-            let muted=true;
-            let vidon=true;
+            <p>Generated Peer ID is: </p>
+            <p id="demo"></p>
+            <video id="sendvidshere"></video>
+            <div style="min-height: 200px;">
+              Video
+            </div>
+          </div>
 
-            function mutebutton(){
-                muted = !muted;
-                document.getElementById("mutebutton").className = "ui circular huge icon button"+(muted?" black":"");
-                //do webrtc mute here 
-
-
-
-
+          <div class="column">
 
 
-            }
 
-            function vidbutton(){
-                vidon = !vidon;
-                document.getElementById("vidbutton").className = "ui circular huge icon button"+(vidon?" black":"");
-                //do webrtc vid on/vid off here 
+          </div>
 
 
 
 
+        </div>
+
+        <div class="four column row">
+
+          <div class="column  center aligned">
+
+            <div class="ui card">
+              <div class="image">
+                <img src="/images/mountain_pose.jpg" id="poseImg">
+              </div>
+              <div class="content">
+                <a class="header" id="english">English name</a>
+
+                <div class="description">
+                  ALSO KNOWN AS
+                </div>
+              </div>
+              <div class="extra content">
+                <a>
+                  <i class="user icon"></i>
+                  Health benefits
+                </a>
+              </div>
+            </div>
+            <!-- <div class="ui medium image">
+            <img id="poseImg" style=""></img>
+        </div> -->
+          </div>
+          <div class="column">
+
+
+          </div>
+
+          <div class="eight wide column center aligned">
+            <h1 id="poseName">Utkatasana</h1>
+
+
+            <div class="ui statistic">
+              <div class="value" id="time">
+                00:30
+              </div>
+              <div class="label" id="time2">
+                seconds to go
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+
+
+        <div class=" row">
 
 
 
-            }
+          <div class="ui middle center aligned three column grid">
+            <div class="one wide column">
+              <button class="ui circular huge icon button black" id="mutebutton" onclick="mutebutton()">
+                <i class="microphone icon"></i>
+              </button>
+            </div>
+            <div class="two wide column">
+              <button class="ui labeled red large icon button" onclick="endcall()">
+                <i class="stop icon"></i>
+                End call
+              </button>
+            </div>
+            <div class="one wide column">
+              <button class="ui circular huge icon button black" id="vidbutton" onclick="vidbutton()">
+                <i class="video icon"></i>
+              </button>
+            </div>
 
-            function endcall(){
-                //end the vid chat stuff here
+          </div>
+          <!-- <div class="column">
+                                <button class="ui circular huge icon button black" id="mutebutton" onclick="mutebutton()">
+                                    <i class="microphone icon"></i>
+                                </button>
+                             </div>
+                             <div class="column">
+                                <button class="ui labeled red large icon button" onclick="endcall()0">
+                                    <i class="stop icon"></i>
+                                    End call
+                                </button>
+                             </div>
+                             <div class="column">
+                                <button class="ui circular huge icon button black" id="vidbutton" onclick="vidbutton()">
+                                    <i class="video icon"></i>
+                                </button>
+                             </div> -->
+        </div>
+
+
+      </div>
+    </div>
 
 
 
 
 
-                
-            }
+    <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
+    <script src="https://cdn.socket.io/socket.io-3.0.0.js"></script>
+    <script>
+      //socket.io
+      let webrtcCode = "";
+      const socket = io();
+      const room_code = document.getElementById("room-code").innerText;
+      //console.log("socket")
+      //console.log("roomcode: " + room_code);
+
+      
+      
+      socket.on("share_id", () => {
+        console.log("share_id")
+        socket.emit('share_id2', room_code, webrtcCode);
+      });
+
+      socket.on("webrtc_id", (id) => {
+          if(id!=webrtcCode)
+          document.getElementById("id-supply").innerHTML = id;
+          
+          do_call();
+
+      })
 
 
 
 
-            //webrtc stuff
-            var peer = new Peer();
+      //webrtc UI
+      let muted = true;
+      let vidon = true;
 
-            peer.on('open', function (id) {
-                document.getElementById("demo").innerHTML = id;
+      function mutebutton() {
+        muted = !muted;
+        document.getElementById("mutebutton").className = "ui circular huge icon button" + (muted ? " black" : "");
+        //do webrtc mute here 
+
+
+
+
+
+
+      }
+
+      function vidbutton() {
+        vidon = !vidon;
+        document.getElementById("vidbutton").className = "ui circular huge icon button" + (vidon ? " black" : "");
+        //do webrtc vid on/vid off here 
+
+
+
+
+
+
+
+      }
+
+      function endcall() {
+        //end the vid chat stuff here
+
+
+
+
+
+
+      }
+
+
+
+
+      //webrtc stuff
+      var peer = new Peer();
+
+      peer.on('open', function (id) {
+        webrtcCode = id;
+        socket.emit("join_room", "" + room_code);
+      });
+
+      peer.on('connection', function (connection) {
+        setInterval(score_dispatch, 1000, connection);
+
+        connection.on('data', function (data) {
+          console.log(data);
+          document.getElementById("demo").innerHTML = data;
+        });
+      });
+
+      peer.on('call', function (call) {
+        navigator.mediaDevices.getUserMedia({ audio: true, video: true }).then(
+          function (stream) {
+            call.answer(stream);
+
+            call.on('stream', function (stream) {
+              video = document.getElementById('sendvidshere');
+              video.srcObject = stream;
+              video.autoplay = true;
             });
+          }).catch(() => { });
+      });
 
-            peer.on('connection', function (connection) {
-                setInterval(score_dispatch, 1000, connection);
+      function score_dispatch(conn) {
+        conn.send(Math.random() * 1000000);
+      }
 
-                connection.on('data', function (data) {
-                    console.log(data);
-                    document.getElementById("demo").innerHTML = data;
-                });
+      function do_call() {
+        connection = peer.connect(document.getElementById("id-supply").value);
+        connection.on('data', function (data) {
+          console.log(data);
+          document.getElementById("demo").innerHTML = data;
+        });
+        setInterval(score_dispatch, 1000, connection);
+        navigator.mediaDevices.getUserMedia({ audio: true, video: true }).then(
+          function (stream) {
+            console.log(document.getElementById("id-supply").value);
+            call = peer.call(document.getElementById("id-supply").value, stream);
+
+            call.on('stream', function (stream) {
+              video = document.getElementById('sendvidshere');
+              video.srcObject = stream;
+              video.autoplay = true;
             });
+          }).catch(() => { });
+      };
+    </script>
 
-            peer.on('call', function (call) {
-                navigator.mediaDevices.getUserMedia({ audio: true, video: true }).then(
-                    function (stream) {
-                        call.answer(stream);
+    <script src="/public/js/friends.js"></script>
 
-                        call.on('stream', function (stream) {
-                            video = document.getElementById('sendvidshere');
-                            video.srcObject = stream;
-                            video.autoplay = true;
-                        });
-                    }).catch(() => { });
-            });
-
-            function score_dispatch(conn) {
-                conn.send(Math.random() * 1000000);
-            }
-
-            function do_call() {
-                connection = peer.connect(document.getElementById("id-supply").value);
-                connection.on('data', function (data) {
-                    console.log(data);
-                    document.getElementById("demo").innerHTML = data;
-                });
-                setInterval(score_dispatch, 1000, connection);
-                navigator.mediaDevices.getUserMedia({ audio: true, video: true }).then(
-                    function (stream) {
-                        console.log(document.getElementById("id-supply").value);
-                        call = peer.call(document.getElementById("id-supply").value, stream);
-
-                        call.on('stream', function (stream) {
-                            video = document.getElementById('sendvidshere');
-                            video.srcObject = stream;
-                            video.autoplay = true;
-                        });
-                    }).catch(() => { });
-            };
-        </script>
+    
 
 
 
