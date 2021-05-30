@@ -106,7 +106,7 @@
         <div class="four column row">
           <div class="column">
              <h2>You</h2>
-             <p>(<span id="poseCounter">0</span>/6) poses done</p>
+             <p>(<span id="poseCounter" onchange="updatescore()">0</span>/6) poses done</p>
              <div style="min-height: 480px">
 
              </div>
@@ -166,7 +166,7 @@
 
           <div class="column right aligned">
             <h2>Opponent</h2>
-            <p><span>(0</span>/6) poses done</p>
+            <p>(<span  id="poseCounterOther">0</span>/6) poses done</p>
             <div style="min-height: 480px">
 
             </div>
@@ -271,11 +271,26 @@
       let webrtcCode = "";
       const socket = io();
       const room_code = document.getElementById("room-code").innerText;
+
+      let userp = JSON.parse(localStorage.getItem("user"))
       
       socket.on("share_id", () => {
         console.log("share_id")
         socket.emit('share_id2', room_code, webrtcCode);
       });
+
+      function updatescore(){
+        socket.emit("update_score", userp.username, document.getElementById(poseCounter).innerText, room_code)
+      }
+
+      socket.on("updated_score", (username, pose_count, room_code) => {
+        if(username===userp.username){
+          //document.getElementById("poseCounter").innerHTML = pose_count;
+        }
+        else{
+          document.getElementById("poseCounterOther").innerHTML = pose_count;
+        }
+      })
 
       socket.on("webrtc_id", (id) => {
           if(id!=webrtcCode){

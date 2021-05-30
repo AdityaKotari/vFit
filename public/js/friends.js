@@ -5,7 +5,7 @@ let pose;
 let yogaNN; 
 var iterationCounter;
 let state = 'predict'; 
-let timeLimit = 30; 
+let timeLimit = 2; 
 var timeLeft; 
 let target; 
 let poseCounter; 
@@ -155,13 +155,13 @@ function gotResult(error, results) {
   if (results)
   {
     if (results[0].confidence > 0.62 && otherVideo) {
-      console.log("Confidence");
+      //console.log("Confidence");
       if (targetLabel == 6)
        {
-        console.log(targetLabel);
+        // console.log(targetLabel);
         iterationCounter = iterationCounter + 1;
   
-        console.log(iterationCounter)
+        // console.log(iterationCounter)
         
         if (iterationCounter == timeLimit) {
           console.log("30!")
@@ -179,10 +179,10 @@ function gotResult(error, results) {
   
      
      else if (results[0].label == targetLabel.toString()){
-        console.log(targetLabel);
+        // console.log(targetLabel);
         iterationCounter = iterationCounter + 1;
   
-        console.log(iterationCounter)
+        // console.log(iterationCounter)
         
         if (iterationCounter == timeLimit) {
           console.log("30!")
