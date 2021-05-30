@@ -1,4 +1,4 @@
-
+let otherCanvas;
 let video;
 let poseNet; 
 let pose; 
@@ -74,9 +74,19 @@ function setup() {
   yogaNN.load(modelInfo, yogiLoaded);
 
   video.hide();
+  let p5l = new p5LiveMedia(this, "CANVAS", canvas, ROOM_ID);
+  console.log("Room ID from p5 is", ROOM_ID); 
+  p5l.on('stream', gotStream);
+  
+  
+}
 
+
+function gotStream(stream) {
   
-  
+  otherCanvas = stream;
+  otherCanvas.position(500, 10); 
+ 
 }
 
 function yogiLoaded()
