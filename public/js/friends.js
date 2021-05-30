@@ -151,10 +151,10 @@ function classifyPose()
 
 
 function gotResult(error, results) {
-
+ 
   if (results)
   {
-    if (results[0].confidence > 0.62) {
+    if (results[0].confidence > 0.62 && otherVideo) {
       console.log("Confidence");
       if (targetLabel == 6)
        {
