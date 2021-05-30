@@ -5,15 +5,15 @@ let pose;
 let yogaNN; 
 var iterationCounter;
 let state = 'predict'; 
-let timeLimit = 2; 
+let timeLimit = 10; 
 var timeLeft; 
 let target; 
 let poseCounter; 
 let errorCounter; 
 var imgArray = new Array();
 var poseImage;
-let english = ['Mountain', 'Tree', 'Downward Dog', 'Warrior I', 'Warrior II', 'Chair'];
-let posesArray = ['Tadasana', 'Vrikshasana', 'Adhoukha svanasana', 'Vidarbhasana I', 'Vidarbhasana II', 'Utkatasana'];
+let english = ['Mountain Pose', 'Tree Pose', 'Downward Dog', 'Warrior I', 'Warrior II', 'Chair Pose'];
+let posesArray = ['Tadasana', 'Vrikshasana', 'Adhmoukha svanasana', 'Vidarbhasana I', 'Vidarbhasana II', 'Utkatasana'];
 function setup() {
   var canvas = createCanvas(640, 480);
   canvas.position(10, 180)

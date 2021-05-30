@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8" />
   <link rel="icon" href="favicon.ico" />
+  <link rel="stylesheet" href="/public/css/friends.css">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- ejs magic -->
   <%- include('./partials/head'); %>
@@ -106,7 +107,7 @@
         <div class="four column row">
           <div class="column">
              <h2>You</h2>
-             <p>(<span id="poseCounter" onchange="updatescore()">0</span>/6) poses done</p>
+             <p class="scores">(<span id="poseCounter" onchange="updatescore()" >0</span>/6) poses done</p>
              <div style="min-height: 480px">
 
              </div>
@@ -124,7 +125,7 @@
                 <a class="header" id="english">English name</a>
 
                 <div class="description">
-                  ALSO KNOWN AS
+                  description
                 </div>
               </div>
               <div class="extra content">
@@ -139,7 +140,7 @@
 
             <div class="ui statistic">
               <div class="value" id="time">
-                00:30
+                00:10
               </div>
               <div class="label" id="time2">
                 seconds to go
@@ -166,7 +167,7 @@
 
           <div class="column right aligned">
             <h2>Opponent</h2>
-            <p>(<span  id="poseCounterOther">0</span>/6) poses done</p>
+            <p class="scores">(<span  id="poseCounterOther" >0</span>/6) poses done</p>
             <div style="min-height: 480px">
 
             </div>
