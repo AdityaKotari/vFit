@@ -1,6 +1,6 @@
 # vFit: Nurturing collaborative fitness online
 
-### 🏆 Won [first place in HackOn with Amazon]()
+### 🏆 Won [first place in HackOn with Amazon](https://www.linkedin.com/posts/activity-6809089524434644992-W8Ge)
 
 ### 👪 Team: [Pranav Balaji](https://github.com/greenfish8090), [Kevin Biju](https://github.com/heavycrystal), [Gaurav Bhattacharjee](https://github.com/guilefoylegaurav), and [Aditya Kotari](https://github.com/AdityaKotari)
 
