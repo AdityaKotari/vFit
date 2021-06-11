@@ -2,7 +2,7 @@
 
 ### 🏆 Won [first place in HackOn with Amazon]()
 
-#### 👪 Team: [Pranav Balaji](https://github.com/greenfish8090), [Kevin Biju](https://github.com/heavycrystal), [Gaurav Bhattacharjee](https://github.com/guilefoylegaurav), and [Aditya Kotari](https://github.com/AdityaKotari)
+### 👪 Team: [Pranav Balaji](https://github.com/greenfish8090), [Kevin Biju](https://github.com/heavycrystal), [Gaurav Bhattacharjee](https://github.com/guilefoylegaurav), and [Aditya Kotari](https://github.com/AdityaKotari)
 
 ## Links:
 
