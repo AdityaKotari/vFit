@@ -6,7 +6,7 @@
 
 ## Links:
 
-* **Live Demo at [https://v-fit.herokuapp.com/](https://v-fit.herokuapp.com/) (The UI only works on desktop/laptop right now)**
+* **Live Demo at [https://vfit.onrender.com/](https://vfit.onrender.com/) (The UI only works on desktop/laptop right now)**
 
 *  **Final presentation: [https://www.youtube.com/watch?v=1l98Ek4INcQ](https://www.youtube.com/watch?v=1l98Ek4INcQ)**
 *  **Demonstration video: [https://www.youtube.com/watch?v=E0EyNNqSheE](https://www.youtube.com/watch?v=E0EyNNqSheE)**
